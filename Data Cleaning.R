@@ -19,12 +19,31 @@ raw <- load_qualtrics_csv(Rohdaten)
 
 raw <- filter(raw, Progress >= 99)
 
+
 # Spalten entfernen
 
-raw.short <- raw[,c(-1:-5, -7:-8, -10:-17, -110)]
-# Spalten umbenennen
+raw.short <- raw[,c(-1:-4, -7:-17, -131:-132)]
 
-# Richtige Datentypen zuordnen
+#Ab hier!
+
+codebook <- read_codebook("data/codebook_final.csv")
+
+names(raw.short) <- codebook$variable
+
+# Richtige Datentypen zuordnen ----
+
+raw.short$age
+
+raw.short[188,]$age = "55" 
+raw.short[266,]$age = "39"
+raw.short[285,]$age = "59"
+
+raw.short$age <- as.numeric(raw.short$age)
+
+raw.short$gender <- as.factor(raw.short$gender)
+
+raw.short$branch <- as.factor(raw.short$branch)
+
 
 # Qualitätskontrolle 
 
