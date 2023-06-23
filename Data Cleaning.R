@@ -12,8 +12,7 @@ library(readxl)
 # Daten einlesen
 
 
-rawText <- read_xlsx("Daten/TEST_Daten.xlsx")
-rawZahl <- read_xlsx("Daten/TEST_Daten_Num.xlsx")
+rawZahl <- read_xlsx("Daten/Rohdaten_23.06.xlsx")
 
 
 # Zeilen entfernen
