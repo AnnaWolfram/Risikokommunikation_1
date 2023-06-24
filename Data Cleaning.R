@@ -11,7 +11,7 @@ source("qualtricshelpers.R")
 
 # Daten einlesen
 
-Rohdaten <- "Daten/CSV.Rohdaten_23.06.csv"
+Rohdaten <- "Daten/Rohdaten_24.06.csv"
 raw <- load_qualtrics_csv(Rohdaten)
 
 
