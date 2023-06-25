@@ -1,5 +1,7 @@
 # Data Cleaning
 
+#Mehr als 50 Spalten sehen
+
 # Pakete laden
 
 #install.packages("readxl")
@@ -11,7 +13,7 @@ source("qualtricshelpers.R")
 
 # Daten einlesen
 
-Rohdaten <- "Daten/Rohdaten_24.06.csv"
+Rohdaten <- "Daten/Rohdaten_25.06.csv"
 raw <- load_qualtrics_csv(Rohdaten)
 
 
@@ -25,8 +27,9 @@ raw <- filter(raw, Progress >= 99)
 raw.short <- raw[,c(-1:-4, -7:-17, -131:-132)]
 
 #Ab hier!
+generate_codebook(raw.short, Rohdaten, "Daten/codebook.csv")
 
-codebook <- read_codebook("data/codebook_final.csv")
+codebook <- read_codebook("Daten/codebook_final.csv")
 
 names(raw.short) <- codebook$variable
 
@@ -34,16 +37,15 @@ names(raw.short) <- codebook$variable
 
 raw.short$age
 
-raw.short[188,]$age = "55" 
-raw.short[266,]$age = "39"
-raw.short[285,]$age = "59"
+raw.short[176,]$age = "24"
 
 raw.short$age <- as.numeric(raw.short$age)
 
-raw.short$gender <- as.factor(raw.short$gender)
+raw.short$gender %>% 
+  recode(`1`= "männlich", `2` = "weiblich", `3`="divers") %>% 
+  as.factor() -> raw.short$gender
 
-raw.short$branch <- as.factor(raw.short$branch)
-
+raw.short$gender
 
 # Qualitätskontrolle 
 
