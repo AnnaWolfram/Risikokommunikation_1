@@ -54,7 +54,7 @@ raw.short$education %>%
          `3`= "Realschulabschluss (Mittlere Reife)",
          `4`="(Fach-)Abitur",
          `5`="(Fach-)Hochschulabschluss",
-         `6`="keine Angabe")
+         `6`="keine Angabe") %>% 
 as.factor() -> raw.short$education
 
 raw.short$occupation[is.na(raw.short$occupation)] <- 10
@@ -68,7 +68,7 @@ raw.short$occupation%>%
          `7`="Arbeitslos / arbeitssuchend",
          `8`= "Hausmann / Hausfrau und / oder versorge Kinder / pflegebedürftige Personen",
          `9`= "Sonstiges",
-         `10`="Keine Angabe")
+         `10`="Keine Angabe") %>% 
 as.factor() -> raw.short$occupation
 
 raw.short$city_size[is.na(raw.short$city_size)] <- 6
@@ -78,7 +78,7 @@ raw.short$city_size %>%
          `3`= "20.000 - 100.000 Einwohner:innen",
          `4`="100.000 - 500.000 Einwohner:innen",
          `5`="> 500.000 Einwohner:innen",
-         `6`="keine Angabe")
+         `6`="keine Angabe") %>% 
 as.factor() -> raw.short$city_size
 
 
@@ -88,8 +88,30 @@ raw.short$city_size %>%
          `2`="Zwischen 1-5 Jahren",
          `3`= "Zwischen 5-10 Jahren",
          `4`="Seit mehr als 10 Jahren",
-         `5`="keine Angabe")
+         `5`="keine Angabe") %>% 
 as.factor() -> raw.short$duration_license
+
+raw.short$`km_per year`[is.na(raw.short$`km_per year`)] <- 6
+raw.short$`km_per year` %>%
+  recode(`1`="bis 5.000 km",
+         `2`="5.001 km bis 10.000 km",
+         `3`= "10.001 km bis 15.000 km",
+         `4`="15.001 km bis 20.000 km",
+         `5`="mehr als 20.001 km",
+         `6`="keine Angabe") %>% 
+  as.factor() -> raw.short$`km_per year`
+
+raw.short$frequency[is.na(raw.short$frequency)] <- 6
+raw.short$frequency %>%
+  recode(`1`="Täglich",
+         `2`="Mehrmals in der Woche",
+         `3`= "Mehrmals im Monat",
+         `4`="Mehrmals im Jahr",
+         `5`="Noch seltener / nie",
+         `6`="keine Angabe") %>% 
+  as.factor() -> raw.short$frequency
+
+
 # Qualitätskontrolle 
 
 # Skalen berechnen
