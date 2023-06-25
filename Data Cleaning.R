@@ -113,6 +113,12 @@ raw.short$frequency %>%
 
 
 # Qualitätskontrolle 
+median(raw.short$`Duration (in seconds)`)
+
+median(raw.short$`Duration (in seconds)`) / 3
+
+speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
 # Skalen berechnen
 
