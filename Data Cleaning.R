@@ -55,6 +55,7 @@ raw.short$education %>%
          `4`="(Fach-)Abitur",
          `5`="(Fach-)Hochschulabschluss",
          `6`="keine Angabe")
+as.factor() -> raw.short$education
 
 raw.short$occupation[is.na(raw.short$occupation)] <- 10
 raw.short$occupation%>%
@@ -68,22 +69,27 @@ raw.short$occupation%>%
          `8`= "Hausmann / Hausfrau und / oder versorge Kinder / pflegebedürftige Personen",
          `9`= "Sonstiges",
          `10`="Keine Angabe")
+as.factor() -> raw.short$occupation
+
+raw.short$city_size[is.na(raw.short$city_size)] <- 6
+raw.short$city_size %>%
+  recode(`1`="< 5.000 Einwohner:innen",
+         `2`="5.000 - 20.000 Einwohner:innen",
+         `3`= "20.000 - 100.000 Einwohner:innen",
+         `4`="100.000 - 500.000 Einwohner:innen",
+         `5`="> 500.000 Einwohner:innen",
+         `6`="keine Angabe")
+as.factor() -> raw.short$city_size
 
 
-
-raw.short$branch %>% 
-  recode(`1`="Forschung und Entwicklung",
-         `2`="Finanzen, Versicherungen und Immobilien",
-         `3`="Lehre", 
-         `4`="Medizin (Pharma und Gesundheit",
-         `5`="Dienstleistungen und Handwerk",
-         `6`="Freizeit", 
-         `7`="Gesellschaft", 
-         `8`="Agrarwissenschaft", 
-         `9`="Technik", 
-         `10`="Sonstiges") %>% 
-  as.factor() -> raw.short$branch
-
+raw.short$duration_license[is.na(raw.short$duration_license)] <- 5
+raw.short$city_size %>%
+  recode(`1`="Seit weniger als einem Jahr",
+         `2`="Zwischen 1-5 Jahren",
+         `3`= "Zwischen 5-10 Jahren",
+         `4`="Seit mehr als 10 Jahren",
+         `5`="keine Angabe")
+as.factor() -> raw.short$duration_license
 # Qualitätskontrolle 
 
 # Skalen berechnen
