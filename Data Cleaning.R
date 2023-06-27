@@ -47,6 +47,21 @@ raw.short$gender %>%
   recode(`1`= "männlich", `2` = "weiblich", `3`="divers", `4`="keine Angabe") %>% 
   as.factor() -> raw.short$gender
 
+
+raw.short$license[is.na(raw.short$license)] <- 5
+raw.short$license %>%
+  recode(`1`="PKW-Führerschein",
+         `2`="Motorrad-Führerschein",
+         `3`= "Kraftfahrzeug-Führerschein",
+         `4`="Keinen Führerschein",
+         `5`="keine Angabe",
+         `12`="PKW-Führerschein & Motorrad-Führerschein",
+         `13`="PKW-Führerschein & Kraftfahrzeug-Führerschein",
+         `123`="PKW-Führerschein & Motorrad-Führerschein & Kraftfahrzeug-Führerschein") %>%
+as.factor() -> raw.short$license
+
+
+
 raw.short$education[is.na(raw.short$education)] <- 6
 raw.short$education %>% 
   ordered(levels = c(1:6),
@@ -94,25 +109,26 @@ raw.short$duration_license %>%
                      `4`="Seit mehr als 10 Jahren",
                      `5`="keine Angabe")) -> raw.short$duration_license
 
+
 raw.short$`km_per year`[is.na(raw.short$`km_per year`)] <- 6
-raw.short$`km_per year` %>%
-  recode(`1`="bis 5.000 km",
-         `2`="5.001 km bis 10.000 km",
-         `3`= "10.001 km bis 15.000 km",
-         `4`="15.001 km bis 20.000 km",
-         `5`="mehr als 20.001 km",
-         `6`="keine Angabe") %>% 
-  as.factor() -> raw.short$`km_per year`
+raw.short$duration_license %>% 
+  ordered(levels = c(1:6),
+          labels = c(`1`="bis 5.000 km",
+                     `2`="5.001 km bis 10.000 km",
+                     `3`= "10.001 km bis 15.000 km",
+                     `4`="15.001 km bis 20.000 km",
+                     `5`="mehr als 20.001 km",
+                     `6`="keine Angabe")) -> raw.short$`km_per year`
 
 raw.short$frequency[is.na(raw.short$frequency)] <- 6
-raw.short$frequency %>%
-  recode(`1`="Täglich",
-         `2`="Mehrmals in der Woche",
-         `3`= "Mehrmals im Monat",
-         `4`="Mehrmals im Jahr",
-         `5`="Noch seltener / nie",
-         `6`="keine Angabe") %>% 
-  as.factor() -> raw.short$frequency
+raw.short$duration_license %>% 
+  ordered(levels = c(1:6),
+          labels = c(`1`="Täglich",
+                     `2`="Mehrmals in der Woche",
+                     `3`= "Mehrmals im Monat",
+                     `4`="Mehrmals im Jahr",
+                     `5`="Noch seltener / nie",
+                     `6`="keine Angabe")) -> raw.short$frequency
 
 
 # Qualitätskontrolle 
@@ -122,6 +138,7 @@ median(raw.short$`Duration (in seconds)`) / 3
 
 speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
 raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+
 
 # Skalen berechnen
 
