@@ -145,7 +145,8 @@ raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 schluesselliste <- list(
   Preferences_Mobility = c("preferences_mobility_1", "preferences_mobility_2", "preferences_mobility_3", "preferences_mobility_8", "preferences_mobility_4", "preferences_mobility_5", "preferences_mobility_6", "preferences_mobility_7"),
   Evaluation = c("evaluation_1", "evaluation_2", "evaluation_3", "evaluation_4"),
-  Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "evaluation_why_6", "-evaluation_why_n_1", "-evaluation_why_n_2", "-evaluation_why_n_3", "-evaluation_why_n_4", "-evaluation_why_n_5"),
+  Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "evaluation_why_6"),
+  Evaluation_Why_n = C("-evaluation_why_n_1", "-evaluation_why_n_2", "-evaluation_why_n_3", "-evaluation_why_n_4", "-evaluation_why_n_5"),
   Dest = c("-concern_dest_n", "-impact_dest_n", "-prob_dest_n"),
   Charging = c("-concern_charging_n", "-impact_charging_n", "-prob_charging_n"),
   Time = c("concern_time", "impact_time", "prob_time"),
