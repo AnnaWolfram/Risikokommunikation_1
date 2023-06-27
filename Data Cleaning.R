@@ -48,48 +48,51 @@ raw.short$gender %>%
   as.factor() -> raw.short$gender
 
 raw.short$education[is.na(raw.short$education)] <- 6
-raw.short$education %>%
-  recode(`1`="(noch) kein Schulabschluss",
-         `2`="Hauptschulabschluss / Volksschulabschluss",
-         `3`= "Realschulabschluss (Mittlere Reife)",
-         `4`="(Fach-)Abitur",
-         `5`="(Fach-)Hochschulabschluss",
-         `6`="keine Angabe") %>% 
-as.factor() -> raw.short$education
+raw.short$education %>% 
+  ordered(levels = c(1:6),
+          labels = c(`1`="(noch) kein Schulabschluss",
+                     `2`="Hauptschulabschluss / Volksschulabschluss",
+                     `3`= "Realschulabschluss (Mittlere Reife)",
+                     `4`="(Fach-)Abitur",
+                     `5`="(Fach-)Hochschulabschluss",
+                     `6`="keine Angabe")) -> raw.short$education
 
 raw.short$occupation[is.na(raw.short$occupation)] <- 10
-raw.short$occupation%>%
-  recode(`1`="Schüler:in",
-         `2`="Auszubildende/-r",
-         `3`= "Student:in",
-         `4`="Voll berufstätig",
-         `5`="Teilweise berufstätig",
-         `6`="Rentner:in, Pensionär:in",
-         `7`="Arbeitslos / arbeitssuchend",
-         `8`= "Hausmann / Hausfrau und / oder versorge Kinder / pflegebedürftige Personen",
-         `9`= "Sonstiges",
-         `10`="Keine Angabe") %>% 
-as.factor() -> raw.short$occupation
+raw.short$occupation %>% 
+  ordered(levels = c(1:10),
+          labels = c(`1`="Schüler:in",
+                     `2`="Auszubildende/-r",
+                     `3`= "Student:in",
+                     `4`="Voll berufstätig",
+                     `5`="Teilweise berufstätig",
+                     `6`="Rentner:in, Pensionär:in",
+                     `7`="Arbeitslos / arbeitssuchend",
+                     `8`= "Hausmann / Hausfrau und / oder versorge Kinder / pflegebedürftige Personen",
+                     `9`= "Sonstiges",
+                     `10`="Keine Angabe")) -> raw.short$occupation
+
 
 raw.short$city_size[is.na(raw.short$city_size)] <- 6
-raw.short$city_size %>%
-  recode(`1`="< 5.000 Einwohner:innen",
-         `2`="5.000 - 20.000 Einwohner:innen",
-         `3`= "20.000 - 100.000 Einwohner:innen",
-         `4`="100.000 - 500.000 Einwohner:innen",
-         `5`="> 500.000 Einwohner:innen",
-         `6`="keine Angabe") %>% 
-as.factor() -> raw.short$city_size
+raw.short$city_size %>% 
+  ordered(levels = c(1:6),
+          labels = c(`1`="< 5.000 Einwohner:innen",
+                     `2`="5.000 - 20.000 Einwohner:innen",
+                     `3`= "20.000 - 100.000 Einwohner:innen",
+                     `4`="100.000 - 500.000 Einwohner:innen",
+                     `5`="> 500.000 Einwohner:innen",
+                     `6`="keine Angabe")) -> raw.short$city_size
+
+
 
 
 raw.short$duration_license[is.na(raw.short$duration_license)] <- 5
-raw.short$city_size %>%
-  recode(`1`="Seit weniger als einem Jahr",
-         `2`="Zwischen 1-5 Jahren",
-         `3`= "Zwischen 5-10 Jahren",
-         `4`="Seit mehr als 10 Jahren",
-         `5`="keine Angabe") %>% 
-as.factor() -> raw.short$duration_license
+raw.short$duration_license %>% 
+  ordered(levels = c(1:5),
+          labels = c(`1`="Seit weniger als einem Jahr",
+                     `2`="Zwischen 1-5 Jahren",
+                     `3`= "Zwischen 5-10 Jahren",
+                     `4`="Seit mehr als 10 Jahren",
+                     `5`="keine Angabe")) -> raw.short$duration_license
 
 raw.short$`km_per year`[is.na(raw.short$`km_per year`)] <- 6
 raw.short$`km_per year` %>%
