@@ -13,7 +13,7 @@ source("qualtricshelpers.R")
 
 # Daten einlesen
 
-Rohdaten <- "Daten/Rohdaten_25.06.csv"
+Rohdaten <- "Daten/Rohdaten_27.06.csv"
 raw <- load_qualtrics_csv(Rohdaten)
 
 
@@ -142,34 +142,32 @@ raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
 # Skalen berechnen
 
-schluesselliste1 <- list(
+schluesselliste <- list(
   Evaluation = c("evaluation_1", "evaluation_2", "evaluation_3", "evaluation_4"),
-  Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "evaluation_why_6"),
-  Evaluation_Why_n = c("-evaluation_why_n_1", "-evaluation_why_n_2", "-evaluation_why_n_3", "-evaluation_why_n_4", "-evaluation_why_n_5"),
-  Dest = c("-concern_dest_n", "-impact_dest_n", "-prob_dest_n"),
-  Charging = c("-concern_charging_n", "-impact_charging_n", "-prob_charging_n"),
+  Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "-evaluation_why_6_n"),
+  Evaluation_Why_n = c("evaluation_why_n_1", "evaluation_why_n_2", "evaluation_why_n_3", "evaluation_why_n_4", "evaluation_why_n_5"),
+  Dest = c("concern_dest", "impact_dest", "prob_dest"),
+  Charging = c("concern_charging", "impact_charging", "prob_charging"),
   Time = c("concern_time", "impact_time", "prob_time"),
   Accident = c("concern_accident", "impact_accident", "prob_accident"),
-  Price = c("-concern_price_n", "-impact_price_n", "-prob_price_n"),
-  Support = c("-concern_support_n", "-impact_support_n", "-prob_support_n"),
+  Price = c("concern_price", "impact_price", "prob_price"),
+  Support = c("concern_support", "impact_support", "prob_support"),
   Worry_EV = c("worry_ev_1", "worry_ev_2", "worry_ev_3", "worry_ev_4", "worry_ev_5", "worry_ev_6"),
-  Driving_Climate = c("driving_climate_1", "driving_climate_2", "driving_climate_3", "driving_climate_4"),
+  Driving_Climate = c("driving_climate_1", "-driving_climate_2_n", "driving_climate_3", "-driving_climate_4_n"),
   EV_Attitude = c("ev_attitude_1", "ev_attitude_2", "ev_attitude_3"),
-  Personality = c("personality_1", "personality_2", "personality_3", "personality_4"),
-  Tech_Interaction = c("tech_interaction_1", "tech_interaction_2", "tech_interaction_3", "tech_interaction_4", "tech_interaction_5", "tech_interaction_6", "tech_interaction_7", "tech_interaction_8", "tech_interaction_9"),
+  Personality = c("-personality_1_n", "personality_2", "-personality_3_n", "personality_4"),
+  Tech_Interaction = c("tech_interaction_1", "tech_interaction_2", "-tech_interaction_3_n", "tech_interaction_4", "tech_interaction_5", "-tech_interaction_6_n", "tech_interaction_7", "-tech_interaction_8_n", "tech_interaction_9"),
   Dest_2 = c("-2concern_dest_n", "2impact_dest", "-2prob_dest"),
-  Charging_2 = c("-2concern_charging_n", "2impact_charging_n", "-2prob_charging_n"),
+  Charging_2 = c("2concern_charging", "2impact_charging", "2prob_charging"),
   Time_2 = c("2concern_time", "2impact_time", "2prob_time"),
   Accident_2 = c("2concern_accident", "2impact_accident", "2prob_accident"),
-  Price_2 = c("-2concern_price_n", "2impact_price_n", "-2prob_price_n"),
-  Support_2 = c("-2concern_support_n", "2impact_support_n", "-2prob_support_n"),
+  Price_2 = c("2concern_price", "2impact_price", "2prob_price"),
+  Support_2 = c("2concern_support", "2impact_support", "2prob_support"),
   Worry_EV_2 = c("2worry_ev_1", "2worry_ev_2", "2worry_ev_3", "2worry_ev_4", "2worry_ev_5", "2worry_ev_6")) 
 
-scores <- scoreItems(schluesselliste1, items = raw.short, missing = TRUE, min = 1, max = 6)
+scores <- scoreItems(schluesselliste, items = raw.short, missing = TRUE, min = 1, max = 6)
+data <- bind_cols(raw.short, as_tibble(scores$scores))
 
-schluesselliste2 <- list(
-Preferences_Mobility = c("preferences_mobility_1", "preferences_mobility_2", "preferences_mobility_3", "preferences_mobility_8", "preferences_mobility_4", "preferences_mobility_5", "preferences_mobility_6", "preferences_mobility_7"))
 
-scores <- scoreItems(schluesselliste2, items = raw.short, missing = TRUE, min = 1, max = 8)
-
+saveRDS(data, "Daten/dataFromNumeric.rds")
 # Lösung abspeichern
