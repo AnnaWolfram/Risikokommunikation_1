@@ -147,7 +147,7 @@ schluesselliste <- list(
   Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "-evaluation_why_6_n"),
   Evaluation_Why_n = c("evaluation_why_n_1", "evaluation_why_n_2", "evaluation_why_n_3", "evaluation_why_n_4", "evaluation_why_n_5"),
   Dest = c("concern_dest", "impact_dest", "prob_dest"),
-  Charging = c("concern_charging", "impact_charging", "prob_charging"),
+  Charging = c("concern_charging", "impact_charging", "prob_charging_n"),
   Time = c("concern_time", "impact_time", "prob_time"),
   Accident = c("concern_accident", "impact_accident", "prob_accident"),
   Price = c("concern_price", "impact_price", "prob_price"),
@@ -157,7 +157,7 @@ schluesselliste <- list(
   EV_Attitude = c("ev_attitude_1", "ev_attitude_2", "ev_attitude_3"),
   Personality = c("-personality_1_n", "personality_2", "-personality_3_n", "personality_4"),
   Tech_Interaction = c("tech_interaction_1", "tech_interaction_2", "-tech_interaction_3_n", "tech_interaction_4", "tech_interaction_5", "-tech_interaction_6_n", "tech_interaction_7", "-tech_interaction_8_n", "tech_interaction_9"),
-  Dest_2 = c("-2concern_dest_n", "2impact_dest", "-2prob_dest"),
+  Dest_2 = c("2concern_dest", "2impact_dest", "2prob_dest"),
   Charging_2 = c("2concern_charging", "2impact_charging", "2prob_charging"),
   Time_2 = c("2concern_time", "2impact_time", "2prob_time"),
   Accident_2 = c("2concern_accident", "2impact_accident", "2prob_accident"),
@@ -168,6 +168,7 @@ schluesselliste <- list(
 scores <- scoreItems(schluesselliste, items = raw.short, missing = TRUE, min = 1, max = 6)
 data <- bind_cols(raw.short, as_tibble(scores$scores))
 
+scores$alpha
 
 saveRDS(data, "Daten/dataFromNumeric.rds")
 # Lösung abspeichern
