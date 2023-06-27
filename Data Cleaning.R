@@ -142,11 +142,10 @@ raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
 # Skalen berechnen
 
-schluesselliste <- list(
-  Preferences_Mobility = c("preferences_mobility_1", "preferences_mobility_2", "preferences_mobility_3", "preferences_mobility_8", "preferences_mobility_4", "preferences_mobility_5", "preferences_mobility_6", "preferences_mobility_7"),
+schluesselliste1 <- list(
   Evaluation = c("evaluation_1", "evaluation_2", "evaluation_3", "evaluation_4"),
   Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "evaluation_why_6"),
-  Evaluation_Why_n = C("-evaluation_why_n_1", "-evaluation_why_n_2", "-evaluation_why_n_3", "-evaluation_why_n_4", "-evaluation_why_n_5"),
+  Evaluation_Why_n = c("-evaluation_why_n_1", "-evaluation_why_n_2", "-evaluation_why_n_3", "-evaluation_why_n_4", "-evaluation_why_n_5"),
   Dest = c("-concern_dest_n", "-impact_dest_n", "-prob_dest_n"),
   Charging = c("-concern_charging_n", "-impact_charging_n", "-prob_charging_n"),
   Time = c("concern_time", "impact_time", "prob_time"),
@@ -165,6 +164,12 @@ schluesselliste <- list(
   Price_2 = c("-2concern_price_n", "2impact_price_n", "-2prob_price_n"),
   Support_2 = c("-2concern_support_n", "2impact_support_n", "-2prob_support_n"),
   Worry_EV_2 = c("2worry_ev_1", "2worry_ev_2", "2worry_ev_3", "2worry_ev_4", "2worry_ev_5", "2worry_ev_6")) 
-  
+
+scores <- scoreItems(schluesselliste1, items = raw.short, missing = TRUE, min = 1, max = 6)
+
+schluesselliste2 <- list(
+Preferences_Mobility = c("preferences_mobility_1", "preferences_mobility_2", "preferences_mobility_3", "preferences_mobility_8", "preferences_mobility_4", "preferences_mobility_5", "preferences_mobility_6", "preferences_mobility_7"))
+
+scores <- scoreItems(schluesselliste2, items = raw.short, missing = TRUE, min = 1, max = 8)
 
 # Lösung abspeichern
