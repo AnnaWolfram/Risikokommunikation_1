@@ -61,20 +61,19 @@ raw.short$license %>%
 as.factor() -> raw.short$license
 
 
-
-raw.short$education[is.na(raw.short$education)] <- 6
+raw.short$education[raw.short$education == 6] <- NA
 raw.short$education %>% 
-  ordered(levels = c(1:6),
+  ordered(levels = c(1:5),
           labels = c(`1`="(noch) kein Schulabschluss",
                      `2`="Hauptschulabschluss / Volksschulabschluss",
                      `3`= "Realschulabschluss (Mittlere Reife)",
                      `4`="(Fach-)Abitur",
-                     `5`="(Fach-)Hochschulabschluss",
-                     `6`="keine Angabe")) -> raw.short$education
+                     `5`="(Fach-)Hochschulabschluss")) -> raw.short$education
 
-raw.short$occupation[is.na(raw.short$occupation)] <- 10
+
+raw.short$occupation[raw.short$occupation == 6] <- NA
 raw.short$occupation %>% 
-  ordered(levels = c(1:10),
+  ordered(levels = c(1:9),
           labels = c(`1`="Schüler:in",
                      `2`="Auszubildende/-r",
                      `3`= "Student:in",
@@ -83,52 +82,67 @@ raw.short$occupation %>%
                      `6`="Rentner:in, Pensionär:in",
                      `7`="Arbeitslos / arbeitssuchend",
                      `8`= "Hausmann / Hausfrau und / oder versorge Kinder / pflegebedürftige Personen",
-                     `9`= "Sonstiges",
-                     `10`="Keine Angabe")) -> raw.short$occupation
+                     `9`= "Sonstiges")) -> raw.short$occupation
 
 
-raw.short$city_size[is.na(raw.short$city_size)] <- 6
+raw.short$city_size[raw.short$city_size == 6] <- NA
 raw.short$city_size %>% 
-  ordered(levels = c(1:6),
+  ordered(levels = c(1:5),
           labels = c(`1`="< 5.000 Einwohner:innen",
                      `2`="5.000 - 20.000 Einwohner:innen",
                      `3`= "20.000 - 100.000 Einwohner:innen",
                      `4`="100.000 - 500.000 Einwohner:innen",
-                     `5`="> 500.000 Einwohner:innen",
-                     `6`="keine Angabe")) -> raw.short$city_size
+                     `5`="> 500.000 Einwohner:innen")) -> raw.short$city_size
 
 
 
-
-raw.short$duration_license[is.na(raw.short$duration_license)] <- 5
+raw.short$duration_license[raw.short$duration_license == 5] <- NA
 raw.short$duration_license %>% 
-  ordered(levels = c(1:5),
+  ordered(levels = c(1:4),
           labels = c(`1`="Seit weniger als einem Jahr",
                      `2`="Zwischen 1-5 Jahren",
                      `3`= "Zwischen 5-10 Jahren",
-                     `4`="Seit mehr als 10 Jahren",
-                     `5`="keine Angabe")) -> raw.short$duration_license
+                     `4`="Seit mehr als 10 Jahren")) -> raw.short$duration_license
 
 
-raw.short$`km_per year`[is.na(raw.short$`km_per year`)] <- 6
-raw.short$duration_license %>% 
-  ordered(levels = c(1:6),
+raw.short$`km_per year`[raw.short$`km_per year` == 6] <- NA
+raw.short$`km_per year` %>% 
+  ordered(levels = c(1:5),
           labels = c(`1`="bis 5.000 km",
                      `2`="5.001 km bis 10.000 km",
                      `3`= "10.001 km bis 15.000 km",
                      `4`="15.001 km bis 20.000 km",
-                     `5`="mehr als 20.001 km",
-                     `6`="keine Angabe")) -> raw.short$`km_per year`
+                     `5`="mehr als 20.001 km")) -> raw.short$`km_per year`
 
-raw.short$frequency[is.na(raw.short$frequency)] <- 6
-raw.short$duration_license %>% 
-  ordered(levels = c(1:6),
+
+raw.short$frequency[raw.short$frequency == 6] <- NA
+raw.short$frequency %>% 
+  ordered(levels = c(1:5),
           labels = c(`1`="Täglich",
                      `2`="Mehrmals in der Woche",
                      `3`= "Mehrmals im Monat",
                      `4`="Mehrmals im Jahr",
-                     `5`="Noch seltener / nie",
-                     `6`="keine Angabe")) -> raw.short$frequency
+                     `5`="Noch seltener / nie")) -> raw.short$frequency
+
+
+raw.short$prior_knowledge[raw.short$prior_knowledge == 6] <- NA
+raw.short$prior_knowledge %>% 
+  ordered(levels = c(1:5),
+          labels = c(`1`="Ich könnte ihre Funktionsweise im Detail erklären.",
+                     `2`="Ich habe eine relativ klare Vorstellung, wie E-Autos funktionieren.",
+                     `3`="Ich habe eine ungefähre Vorstellung über die Funktionsweise von E-Autos.",
+                     `4`="Ich habe schon einmal von E-Autos gehört, kann aber nichts darüber sagen.",
+                     `5`="Ich habe keine Kenntnisse über Elektrofahrzeuge.")) -> raw.short$prior_knowledge
+
+
+raw.short$experience[raw.short$experience == 6] <- NA
+raw.short$experience %>% 
+  ordered(levels = c(1:5),
+          labels = c(`1`="Ich nutze aktuell ein E-Auto.",
+                     `2`="In der Vergangenheit habe ich E-Autos für längere Zeit genutzt.",
+                     `3`="Ich bin schon öfter mit einem Elektrofahrzeug gefahren.",
+                     `4`="Ich bin einmal mit einem E-Auto gefahren.",
+                     `5`="Ich habe keine Erfahrung mit E-Autos.")) -> raw.short$experience
 
 
 # Qualitätskontrolle 
