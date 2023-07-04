@@ -163,6 +163,13 @@ raw.short <- hcictools::careless_indices(raw.short,
                                         speeder_analysis = "median/3", 
                                         likert_vector = c(27:41,43:60,71:108))
 
+raw.short %>%
+  filter(speeder_flag == FALSE) -> raw.noSpeeder
+raw.short %>%
+  filter(speeder_flag == FALSE) %>%
+  filter(careless_longstr < 30)-> raw.gtfo
+
+
 # Probanden unter 18 Jahren entfernen
 raw.short <- raw.short[raw.short$age >= 18, ]
 
