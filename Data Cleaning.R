@@ -153,6 +153,26 @@ median(raw.short$`Duration (in seconds)`) / 3
 speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
 raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
+#raw.short <- hcictools::careless_indices(raw.short, 
+                                        # speeder_analysis = "median/3", 
+                                        # likert_vector = c(27:68,71:105)) #Überarbeiten!
+
+# Probanden unter 18 Jahren entfernen
+raw.short <- raw.short[raw.short$age >= 18, ]
+
+# Probanden ohne Führerschein oder mit "keine Angabe" entfernen
+raw.short <- raw.short[!(raw.short$license %in% c("4", "5")), ]
+
+
+
+
+#raw.short %>% 
+ # filter(speeder_flag == FALSE) -> raw.noSpeeder
+
+#raw.short %>% 
+ # filter(speeder_flag == FALSE) %>% 
+ # filter(careless_longstr < 30)-> raw.gtfo 
+
 
 # Skalen berechnen
 
