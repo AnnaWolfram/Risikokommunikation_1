@@ -5,11 +5,17 @@
 # Pakete laden
 
 #install.packages("readxl")
+#remotes::install_github("statisticsforsocialscience/hcictools")
+#installed.packages("tidyverse")
+#install.packages("hcictools")
 
 library(tidyverse)
 library(psych)
 library(readxl)
+library(hcictools)
 source("qualtricshelpers.R")
+
+
 
 # Daten einlesen
 
@@ -146,16 +152,16 @@ raw.short$experience %>%
 
 
 # Qualitätskontrolle 
-median(raw.short$`Duration (in seconds)`)
+#median(raw.short$`Duration (in seconds)`)
 
-median(raw.short$`Duration (in seconds)`) / 3
+#median(raw.short$`Duration (in seconds)`) / 3
 
-speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
-raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+#speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+#raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
 raw.short <- hcictools::careless_indices(raw.short, 
                                         speeder_analysis = "median/3", 
-                                        likert_vector = c(27:68,71:105))
+                                        likert_vector = c(27:41,43:60,71:108))
 
 # Probanden unter 18 Jahren entfernen
 raw.short <- raw.short[raw.short$age >= 18, ]
