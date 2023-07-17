@@ -46,7 +46,7 @@ impact_dest;impact_dest;NA;Wie schwerwiegend wären die Auswirkungen für Sie, w
 prob_dest;prob_dest;NA;Für wie wahrscheinlich halten Sie es, Ihr Ziel nicht erreichen zu können?;"{""ImportId"":""QID63""}"
 concern_charging;concern_charging;NA;Wie besorgt sind Sie, wenn überhaupt, dass es auf Ihrer Strecke keine Möglichkeit gibt, das Elektroauto laden zu können?;"{""ImportId"":""QID54""}"
 impact_charging;impact_charging;NA;Wie schwerwiegend wären die Auswirkungen für Sie, wenn Sie das Auto auf der Strecke nicht laden könnten?;"{""ImportId"":""QID55""}"
-prob_charging_n;prob_charging_n;NA;Für wie wahrscheinlich halten Sie es, das Auto auf der Strecke nicht laden zu können?;"{""ImportId"":""QID113""}"
+prob_charging;prob_charging;NA;Für wie wahrscheinlich halten Sie es, das Auto auf der Strecke nicht laden zu können?;"{""ImportId"":""QID113""}"
 concern_time;concern_time;NA;Wie besorgt sind Sie, wenn überhaupt, dass die Ladezeit Ihres Elektroautos auf Ihrer Strecke dazu führen könnte, dass Sie länger brauchen, um Ihr Ziel zu erreichen?;"{""ImportId"":""QID56""}"
 impact_time;impact_time;NA;Wie schwerwiegend wären die Auswirkungen für Sie, wenn Sie aufgrund der Ladezeit Ihres Elektroautos länger brauchen, um Ihr Ziel zu erreichen?;"{""ImportId"":""QID57""}"
 prob_time;prob_time;NA;Für wie wahrscheinlich halten Sie es, aufgrund der Ladezeit Ihres Elektroautos länger zu brauchen, um Ihr Ziel zu erreichen?;"{""ImportId"":""QID65""}"
