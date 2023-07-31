@@ -161,19 +161,12 @@ raw.short
 #speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
 #raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
-raw.short <- hcictools::careless_indices(raw.short, 
-                                        speeder_analysis = "median/3", 
-                                        likert_vector = c(27:41,43:60,71:108))
-
 
 #median(raw.short$`Duration (in seconds)`) / 3
 
 #speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
 #raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
-saveRDS(raw.short, "Daten/dataRisiskokommunikation.rds")
-
-FuckOff <- readRDS("Daten/dataRisiskokommunikation.rds")
 
 nrow(raw.short)
 
