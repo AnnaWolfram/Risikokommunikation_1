@@ -237,9 +237,6 @@ saveRDS(data, "Daten/dataFromNumeric.rds")
 
 library(dplyr)
 
-# Annahme: Dein Datensatz heißt "data"
-# Annahme: Die Spalte für die positive Framing-Gruppe heißt "control_question"
-# Annahme: Die Spalte für die negative Framing-Gruppe heißt "n_control_reading"
 
 # Erstellen einer neuen Spalte "framing" basierend auf den Antworten auf "control_question" und "n_control_reading"
 data <- data %>%
