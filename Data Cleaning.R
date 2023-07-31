@@ -1,18 +1,17 @@
 # Data Cleaning
 
-#Mehr als 50 Spalten sehen
-
-# Pakete laden
 
 #install.packages("readxl")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #installed.packages("tidyverse")
-#install.packages("hcictools")
+remotes::install_github("statisticsforsocialscience/hcictools")
+install.packages("careless")
 
+library(hcictools)
 library(tidyverse)
 library(psych)
 library(readxl)
-library(hcictools)
+library(careless)
 source("qualtricshelpers.R")
 
 
@@ -30,6 +29,7 @@ raw <- filter(raw, Progress >= 99)
 # Spalten entfernen
 
 raw.short <- raw[,c(-1:-4, -7:-8,-10:-17, -131:-132)]
+
 
 #Ab hier!
 generate_codebook(raw.short, Rohdaten, "Daten/codebook.csv")
@@ -150,6 +150,9 @@ raw.short$experience %>%
                      `5`="Ich habe keine Erfahrung mit E-Autos.")) -> raw.short$experience
 
 
+
+raw.short
+
 # Qualitätskontrolle 
 #median(raw.short$`Duration (in seconds)`)
 
@@ -162,12 +165,32 @@ raw.short <- hcictools::careless_indices(raw.short,
                                         speeder_analysis = "median/3", 
                                         likert_vector = c(27:41,43:60,71:108))
 
-raw.short %>%
-  filter(speeder_flag == FALSE) -> raw.noSpeeder
-raw.short %>%
-  filter(speeder_flag == FALSE) %>%
-  filter(careless_longstr < 30)-> raw.gtfo
 
+#median(raw.short$`Duration (in seconds)`) / 3
+
+#speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+#raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+
+saveRDS(raw.short, "Daten/dataRisiskokommunikation.rds")
+
+FuckOff <- readRDS("Daten/dataRisiskokommunikation.rds")
+
+nrow(raw.short)
+
+raw.short <- careless_indices(raw.short, 
+                              speeder_analysis = "median/2", 
+                              likert_vector = c(27:41,43:60,71:108))
+
+                                         
+raw.short %>% 
+  filter(speeder_flag == FALSE) -> raw.noSpeeder
+
+raw.short %>% 
+  filter(speeder_flag == FALSE) %>% 
+  filter(careless_longstr < 20) %>% 
+  filter(careless_psychsyn > 0) %>% 
+  filter(careless_psychant < 0) %>% 
+  filter(careless_mahadflag == FALSE) -> raw.gtfo 
 
 # Probanden unter 18 Jahren entfernen
 raw.short <- raw.short[raw.short$age >= 18, ]
