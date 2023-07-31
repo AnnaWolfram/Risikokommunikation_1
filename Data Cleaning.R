@@ -15,13 +15,6 @@ library(careless)
 source("qualtricshelpers.R")
 
 
-
-git config --global user.email "dana.scholz@rwth-aachen.de"
-git config --global user.name "DanaScholz"
-
-
-
-
 # Daten einlesen
 
 Rohdaten <- "Daten/Rohdaten_17.07.csv"
@@ -35,7 +28,7 @@ raw <- filter(raw, Progress >= 99)
 
 # Spalten entfernen
 
-raw.short <- raw[,c(-1:-4, -7:-17, -131:-132)]
+raw.short <- raw[,c(-1:-4, -7:-8,-10:-17, -131:-132)]
 
 
 #Ab hier!
@@ -168,6 +161,16 @@ raw.short
 #speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
 #raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
+raw.short <- hcictools::careless_indices(raw.short, 
+                                        speeder_analysis = "median/3", 
+                                        likert_vector = c(27:41,43:60,71:108))
+
+
+#median(raw.short$`Duration (in seconds)`) / 3
+
+#speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+#raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+
 saveRDS(raw.short, "Daten/dataRisiskokommunikation.rds")
 
 FuckOff <- readRDS("Daten/dataRisiskokommunikation.rds")
@@ -220,7 +223,7 @@ schluesselliste <- list(
   Support = c("concern_support", "impact_support", "prob_support"),
   Driving_Climate = c("driving_climate_1", "-driving_climate_2_n", "driving_climate_3", "-driving_climate_4_n"),
   EV_Attitude = c("ev_attitude_1", "ev_attitude_2", "ev_attitude_3"),
-  Personality = c("-personality_1_n", "personality_2", "-personality_3_n", "personality_4"),
+  Personality_neuro = c("-personality_3_n", "personality_4"),
   Tech_Interaction = c("tech_interaction_1", "tech_interaction_2", "-tech_interaction_3_n", "tech_interaction_4", "tech_interaction_5", "-tech_interaction_6_n", "tech_interaction_7", "-tech_interaction_8_n", "tech_interaction_9"),
   Dest_2 = c("2concern_dest", "2impact_dest", "2prob_dest"),
   Charging_2 = c("2concern_charging", "2impact_charging", "2prob_charging"),
