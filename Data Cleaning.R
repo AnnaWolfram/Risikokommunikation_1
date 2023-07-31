@@ -29,7 +29,7 @@ raw <- filter(raw, Progress >= 99)
 
 # Spalten entfernen
 
-raw.short <- raw[,c(-1:-4, -7:-17, -131:-132)]
+raw.short <- raw[,c(-1:-4, -7:-8,-10:-17, -131:-132)]
 
 #Ab hier!
 generate_codebook(raw.short, Rohdaten, "Daten/codebook.csv")
@@ -151,16 +151,16 @@ raw.short$experience %>%
 
 
 # Qualitätskontrolle 
-median(raw.short$`Duration (in seconds)`)
+#median(raw.short$`Duration (in seconds)`)
 
-median(raw.short$`Duration (in seconds)`) / 3
+#median(raw.short$`Duration (in seconds)`) / 3
 
-speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
-raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+#speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+#raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
-#raw.short <- hcictools::careless_indices(raw.short, 
-                                        #speeder_analysis = "median/3", 
-                                        #likert_vector = c(27:41,43:60,71:108))
+raw.short <- hcictools::careless_indices(raw.short, 
+                                        speeder_analysis = "median/3", 
+                                        likert_vector = c(27:41,43:60,71:108))
 
 raw.short %>%
   filter(speeder_flag == FALSE) -> raw.noSpeeder
@@ -189,7 +189,7 @@ raw.short %>%
 # Skalen berechnen
 
 schluesselliste <- list(
-  Evaluation = c("evaluation_1", "evaluation_2", "evaluation_3", "evaluation_4"),
+  Evaluation = c("evaluation_1", "evaluation_2", "-evaluation_3", "-evaluation_4"),
   Evaluation_Why = c("evaluation_why_1", "evaluation_why_2", "evaluation_why_3", "evaluation_why_4", "evaluation_why_5", "-evaluation_why_6_n"),
   Evaluation_Why_n = c("evaluation_why_n_1", "evaluation_why_n_2", "evaluation_why_n_3", "evaluation_why_n_4", "evaluation_why_n_5"),
   Dest = c("concern_dest", "impact_dest", "prob_dest"),
@@ -200,7 +200,7 @@ schluesselliste <- list(
   Support = c("concern_support", "impact_support", "prob_support"),
   Driving_Climate = c("driving_climate_1", "-driving_climate_2_n", "driving_climate_3", "-driving_climate_4_n"),
   EV_Attitude = c("ev_attitude_1", "ev_attitude_2", "ev_attitude_3"),
-  Personality = c("-personality_1_n", "personality_2", "-personality_3_n", "personality_4"),
+  Personality_neuro = c("-personality_3_n", "personality_4"),
   Tech_Interaction = c("tech_interaction_1", "tech_interaction_2", "-tech_interaction_3_n", "tech_interaction_4", "tech_interaction_5", "-tech_interaction_6_n", "tech_interaction_7", "-tech_interaction_8_n", "tech_interaction_9"),
   Dest_2 = c("2concern_dest", "2impact_dest", "2prob_dest"),
   Charging_2 = c("2concern_charging", "2impact_charging", "2prob_charging"),

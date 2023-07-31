@@ -1,6 +1,7 @@
 variable;variable_old;item;text;info
 Progress;Progress;NA;Aktueller Stand;"{""ImportId"":""progress""}"
 Duration (in seconds);Duration (in seconds);NA;Dauer (in Sekunden);"{""ImportId"":""duration""}"
+ResponseId;ResponseId;NA;Antwort-ID;"{""ImportId"":""_recordId""}"
 participation;participation;NA;Bitte treffen Sie eine Wahl.;"{""ImportId"":""QID31""}"
 gender;gender;NA;Welchem Geschlecht fühlen Sie sich zugehörig?;"{""ImportId"":""QID2""}"
 age;age;NA;Bitte geben Sie Ihr Alter in Jahren an.;"{""ImportId"":""QID4_TEXT""}"
