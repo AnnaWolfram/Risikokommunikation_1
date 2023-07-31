@@ -4,8 +4,8 @@
 #install.packages("readxl")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #installed.packages("tidyverse")
-remotes::install_github("statisticsforsocialscience/hcictools")
-install.packages("careless")
+#remotes::install_github("statisticsforsocialscience/hcictools")
+#install.packages("careless")
 
 library(hcictools)
 library(tidyverse)
