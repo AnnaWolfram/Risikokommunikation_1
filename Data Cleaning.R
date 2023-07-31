@@ -151,16 +151,16 @@ raw.short$experience %>%
 
 
 # Qualitätskontrolle 
-#median(raw.short$`Duration (in seconds)`)
+median(raw.short$`Duration (in seconds)`)
 
-#median(raw.short$`Duration (in seconds)`) / 3
+median(raw.short$`Duration (in seconds)`) / 3
 
-#speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
-#raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
+speederlimit <- median(raw.short$`Duration (in seconds)`) / 3
+raw.short <- filter(raw.short, `Duration (in seconds)` > speederlimit)
 
-raw.short <- hcictools::careless_indices(raw.short, 
-                                        speeder_analysis = "median/3", 
-                                        likert_vector = c(27:41,43:60,71:108))
+#raw.short <- hcictools::careless_indices(raw.short, 
+                                        #speeder_analysis = "median/3", 
+                                        #likert_vector = c(27:41,43:60,71:108))
 
 raw.short %>%
   filter(speeder_flag == FALSE) -> raw.noSpeeder
@@ -178,12 +178,12 @@ raw.short <- raw.short[!(raw.short$license %in% c("Keinen Führerschein", "keine
 
 
 
-#raw.short %>% 
- # filter(speeder_flag == FALSE) -> raw.noSpeeder
+raw.short %>% 
+  filter(speeder_flag == FALSE) -> raw.noSpeeder
 
-#raw.short %>% 
- # filter(speeder_flag == FALSE) %>% 
- # filter(careless_longstr < 30)-> raw.gtfo 
+raw.short %>% 
+  filter(speeder_flag == FALSE) %>% 
+  filter(careless_longstr < 30)-> raw.gtfo 
 
 
 # Skalen berechnen
