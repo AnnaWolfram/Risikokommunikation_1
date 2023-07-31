@@ -198,7 +198,6 @@ schluesselliste <- list(
   Accident = c("concern_accident", "impact_accident", "prob_accident"),
   Price = c("concern_price", "impact_price", "prob_price"),
   Support = c("concern_support", "impact_support", "prob_support"),
-  Worry_EV = c("worry_ev_1", "worry_ev_2", "worry_ev_3", "worry_ev_4", "worry_ev_5", "worry_ev_6"),
   Driving_Climate = c("driving_climate_1", "-driving_climate_2_n", "driving_climate_3", "-driving_climate_4_n"),
   EV_Attitude = c("ev_attitude_1", "ev_attitude_2", "ev_attitude_3"),
   Personality = c("-personality_1_n", "personality_2", "-personality_3_n", "personality_4"),
@@ -208,8 +207,7 @@ schluesselliste <- list(
   Time_2 = c("2concern_time", "2impact_time", "2prob_time"),
   Accident_2 = c("2concern_accident", "2impact_accident", "2prob_accident"),
   Price_2 = c("2concern_price", "2impact_price", "2prob_price"),
-  Support_2 = c("2concern_support", "2impact_support", "2prob_support"),
-  Worry_EV_2 = c("2worry_ev_1", "2worry_ev_2", "2worry_ev_3", "2worry_ev_4", "2worry_ev_5", "2worry_ev_6")) 
+  Support_2 = c("2concern_support", "2impact_support", "2prob_support"))
 
 scores <- scoreItems(schluesselliste, items = raw.short, missing = TRUE, min = 1, max = 6)
 data <- bind_cols(raw.short, as_tibble(scores$scores))
