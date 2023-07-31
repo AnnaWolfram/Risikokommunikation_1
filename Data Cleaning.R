@@ -15,6 +15,13 @@ library(careless)
 source("qualtricshelpers.R")
 
 
+
+git config --global user.email "dana.scholz@rwth-aachen.de"
+git config --global user.name "DanaScholz"
+
+
+
+
 # Daten einlesen
 
 Rohdaten <- "Daten/Rohdaten_17.07.csv"
