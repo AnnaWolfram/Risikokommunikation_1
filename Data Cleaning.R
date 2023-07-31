@@ -16,10 +16,9 @@ library(hcictools)
 source("qualtricshelpers.R")
 
 
-
 # Daten einlesen
 
-Rohdaten <- "Daten/Rohdaten_27.06.csv"
+Rohdaten <- "Daten/Rohdaten_17.07.csv"
 raw <- load_qualtrics_csv(Rohdaten)
 
 
