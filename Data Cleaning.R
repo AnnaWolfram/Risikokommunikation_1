@@ -225,10 +225,49 @@ schluesselliste <- list(
   Price_2 = c("2concern_price", "2impact_price", "2prob_price"),
   Support_2 = c("2concern_support", "2impact_support", "2prob_support"))
 
-scores <- scoreItems(schluesselliste, items = raw.short, missing = TRUE, min = 1, max = 6)
-data <- bind_cols(raw.short, as_tibble(scores$scores))
+scores <- scoreItems(schluesselliste, items = raw.gtfo, missing = TRUE, min = 1, max = 6)
+data <- bind_cols(raw.gtfo, as_tibble(scores$scores))
 
 scores$alpha
 
 saveRDS(data, "Daten/dataFromNumeric.rds")
 # Lösung abspeichern
+
+# Filtern von Positiv und negativ
+
+library(dplyr)
+
+# Annahme: Dein Datensatz heißt "data"
+# Annahme: Die Spalte für die positive Framing-Gruppe heißt "control_question"
+# Annahme: Die Spalte für die negative Framing-Gruppe heißt "n_control_reading"
+
+# Erstellen einer neuen Spalte "framing" basierend auf den Antworten auf "control_question" und "n_control_reading"
+data <- data %>%
+  mutate(framing = case_when(
+    control_question == 1 ~ "positiv",
+    n_control_reading == 1 ~ "negativ",
+    control_neutral == 1 ~ "data_framing_controll",  # Neue Bedingung für Personen ohne Text
+    TRUE ~ NA_character_  # Wenn keine der Bedingungen erfüllt ist, wird NA gesetzt
+  ))
+
+# Filtern der Probanden mit positivem Framing
+data_positiv <- data %>%
+  filter(framing == "positiv")
+
+# Filtern der Probanden mit negativem Framing
+data_negativ <- data %>%
+  filter(framing == "negativ")
+
+# Filtern der Probanden ohne Text
+data_noText <- data %>%
+  filter(framing == "data_framing_controll")
+
+# Spaltennamen und -reihenfolge in den drei Datensätzen sicherstellen
+data_positiv <- data_positiv[, names(data_noText)]
+data_negativ <- data_negativ[, names(data_noText)]
+
+# Zusammenführen der drei Datensätze
+data_combined <- bind_rows(data_positiv, data_negativ, data_noText)
+
+# Speichern des kombinierten Datensatzes als RDS-Datei
+saveRDS(data_combined, "Daten/data_combined.rds")
