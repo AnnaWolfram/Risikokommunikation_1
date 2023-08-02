@@ -78,6 +78,23 @@ data_combined %>%
  theme_minimal()
 
 # Art des Autos
+table(data_combined$car_ownership)
+table(data_combined$car_type)
+
+library(dplyr)
+library(ggplot2)
+
+data_combined %>%
+  filter(!is.na(car_type)) %>%
+ ggplot() +
+ aes(x = car_type) +
+ geom_bar(fill = "#112446") +
+ labs(x = "Art des Autos", 
+      y = "Anzahl", 
+      title = "Studentische Stichprobe", 
+      subtitle = "Verteilung der Art des Autos der Proband:innen, die ein Auto besitzen", 
+      caption = " ") +
+ theme_minimal()
 
 
 # Deskriptive Statistik (ohne Visualisierung) ----
