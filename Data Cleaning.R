@@ -109,6 +109,24 @@ raw.short$duration_license %>%
                      `3`= "Zwischen 5-10 Jahren",
                      `4`="Seit mehr als 10 Jahren")) -> raw.short$duration_license
 
+raw.short$car_type[raw.short$car_type == 6] <- NA
+raw.short$car_type %>% 
+  ordered(levels = c(1:5),
+          labels = c(`1`="Diesel-Auto",
+                     `2`="Benzin-Auto",
+                     `3`= "Elektro-Auto",
+                     `4`="Hybrid-Auto",
+                     `5`="Brennstoffzellen-Auto")) -> raw.short$car_type
+
+raw.short$car_type[raw.short$car_type == 6] <- NA
+raw.short$car_type[is.na(raw.short$car_type)] <- 5
+raw.short$car_type %>%
+  recode(`1`="Diesel-Auto",
+         `2`="Benzin-AUto",
+         `3`= "Elektro-Auto",
+         `4`="Hybrid-Auto",
+         `5`="Brennstoffzellen-Auto") %>%
+  as.factor() -> raw.short$car_type
 
 raw.short$`km_per year`[raw.short$`km_per year` == 6] <- NA
 raw.short$`km_per year` %>% 
