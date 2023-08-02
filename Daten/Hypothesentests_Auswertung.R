@@ -26,8 +26,6 @@ data_combined <- readRDS("Daten/data_combined.rds")
 names(data_combined)[names(data_combined) == "concern_dest"] <- "concern_dest_before"
 names(data_combined)[names(data_combined) == "2concern_dest"] <- "concern_dest_after"
 
-names(data_combined)
-
 # Daten umstrukturieren
 long_data <- data_combined %>%
   pivot_longer(cols = c("concern_dest_before", "concern_dest_after"),
@@ -69,8 +67,6 @@ print(result)
 # Ändern Sie die Spaltennamen
 names(data_positiv)[names(data_positiv) == "concern_dest"] <- "concern_dest_before"
 names(data_positiv)[names(data_positiv) == "2concern_dest"] <- "concern_dest_after"
-
-names(long_data_pos)
 
 # Daten umstrukturieren
 long_data_pos <- data_positiv %>%

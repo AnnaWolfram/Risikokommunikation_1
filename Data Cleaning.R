@@ -268,3 +268,4 @@ data_combined <- bind_rows(data_positiv, data_negativ, data_noText)
 
 # Speichern des kombinierten Datensatzes als RDS-Datei
 saveRDS(data_combined, "Daten/data_combined.rds")
+
