@@ -142,8 +142,6 @@ license_summary_percent
 
 ### Darstellung der Deskriptiven Statistik
 
-
-
 # Dauer Besitz Führerschein
 summary(data$duration_license)
 
