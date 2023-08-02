@@ -4,8 +4,8 @@
 #install.packages("readxl")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #installed.packages("tidyverse")
-remotes::install_github("statisticsforsocialscience/hcictools")
-install.packages("careless")
+#remotes::install_github("statisticsforsocialscience/hcictools")
+#install.packages("careless")
 
 library(hcictools)
 library(tidyverse)
@@ -268,3 +268,4 @@ data_combined <- bind_rows(data_positiv, data_negativ, data_noText)
 
 # Speichern des kombinierten Datensatzes als RDS-Datei
 saveRDS(data_combined, "Daten/data_combined.rds")
+
