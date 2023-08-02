@@ -197,3 +197,10 @@ result <- ezANOVA(
   detailed = TRUE
 )
 print(result)
+
+
+
+# To do for Anna
+
+# suchen wie ich eine Anova mache --> Vorlage altes Forschungsseminar
+# Hypothesen sind im Dokument
