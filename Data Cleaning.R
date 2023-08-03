@@ -151,11 +151,11 @@ raw.short$frequency %>%
 raw.short$prior_knowledge[raw.short$prior_knowledge == 6] <- NA
 raw.short$prior_knowledge %>% 
   ordered(levels = c(1:5),
-          labels = c(`1`="Ich könnte ihre Funktionsweise im Detail erklären.",
-                     `2`="Ich habe eine relativ klare Vorstellung, wie E-Autos funktionieren.",
-                     `3`="Ich habe eine ungefähre Vorstellung über die Funktionsweise von E-Autos.",
-                     `4`="Ich habe schon einmal von E-Autos gehört, kann aber nichts darüber sagen.",
-                     `5`="Ich habe keine Kenntnisse über Elektrofahrzeuge.")) -> raw.short$prior_knowledge
+          labels = c(`1`="Detailliertes Vorwissen",
+                     `2`="Klare Vorstellung",
+                     `3`="Ungefäre Vorstellung",
+                     `4`="Schon davon gehört",
+                     `5`="Kein Vorwissen")) -> raw.short$prior_knowledge
 
 
 raw.short$experience[raw.short$experience == 6] <- NA

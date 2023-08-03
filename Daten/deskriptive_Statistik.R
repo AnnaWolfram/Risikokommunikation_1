@@ -64,9 +64,6 @@ data_combined %>%
 
 # Beschäftigung ----
 
-library(dplyr)
-library(ggplot2)
-
 data_combined %>%
  ggplot() +
  aes(x = occupation) +
@@ -78,7 +75,7 @@ data_combined %>%
       caption = " ") +
  theme_minimal()
 
-# Art des Autos
+# Art des Autos ----
 table(data_combined$car_ownership)
 table(data_combined$car_type)
 
@@ -94,6 +91,21 @@ data_combined %>%
       y = "Anzahl", 
       title = "Studentische Stichprobe", 
       subtitle = "Verteilung der Art des Autos der Proband:innen, die ein Auto besitzen", 
+      caption = " ") +
+ theme_minimal()
+
+
+#Vorwissen e-Autos ----
+
+data_combined %>%
+  filter(!is.na(prior_knowledge)) %>%
+ ggplot() +
+ aes(x = prior_knowledge) +
+ geom_bar(fill = "#112446") +
+ labs(x = "Vorwissen über Elektromobilität", 
+      y = "Anzahl", 
+      title = "Studentische Stichprobe", 
+      subtitle = "Selbsteinschätzung zum Vorwissen zu Elektromobilität", 
       caption = " ") +
  theme_minimal()
 
