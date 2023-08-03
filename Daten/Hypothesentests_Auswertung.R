@@ -31,6 +31,8 @@ data_combined$framing <- ifelse(!is.na(data_combined$n_control_reading), "N",
 # Filtern Sie die Daten, um nur die gewünschten Gruppen zu behalten
 data_filtered <- data_combined[data_combined$framing != "Neutral", ]
 
+# Dest und Dest_2 ----
+
 #Umwandeln der Daten in das "long" Format für Dest und Dest_2 
 data_long <- data_filtered %>%
   select(ID = ResponseId, framing, Dest, Dest_2) %>%
@@ -67,7 +69,7 @@ print(mixed_anova_result)
 
 
 
-##Charging und Charging_2
+# Charging und Charging_2----
 
 
 
@@ -154,7 +156,7 @@ mixed_anova_result_time <- aov_ez(data_long_time, dv = "value", id = "ID", betwe
 print(mixed_anova_result_time)
 
 
-#Accident und Accident_2
+# Accident und Accident_2 ----
 
 # Umwandeln der Daten in das "long" Format für Accident und Accident_2
 data_long_accident <- data_filtered %>%
@@ -197,7 +199,7 @@ mixed_anova_result_accident <- aov_ez(data_long_accident, dv = "value", id = "ID
 print(mixed_anova_result_accident)
 
 
-#Price und Price_2
+#Price und Price_2 ----
 
 # Umwandeln der Daten in das "long" Format für Price und Price_2
 
@@ -240,6 +242,9 @@ print(sphericity_test_price$Mauchly)
 mixed_anova_result_price <- aov_ez(data_long_price, dv = "value", id = "ID", between = "framing", within = "time")
 print(mixed_anova_result_price)
 
+
+
+#Support und Support_2----
 
 # Umwandeln der Daten in das "long" Format für Support und Support_2
 data_long_support <- data_filtered %>%
