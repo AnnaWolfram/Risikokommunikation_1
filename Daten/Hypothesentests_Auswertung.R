@@ -9,6 +9,8 @@ saveRDS(data_combined, "Daten/data_combined.rds")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #install.packages("careless")
 install.packages("jmv")
+install.packages("rstatix")
+install.packages("ez")
 
 library(hcictools)
 library(tidyverse)
@@ -18,18 +20,48 @@ library(careless)
 source("qualtricshelpers.R")
 library(jmv)
 library(dplyr)
+library(rstatix)
+library(car)
+library(ez)
 
+# Hinzufügen einer Framing-Gruppe
+data_combined$framing <- ifelse(!is.na(data_combined$n_control_reading), "N",
+                                ifelse(!is.na(data_combined$control_question), "P", "Neutral"))
 
+# Filtern Sie die Daten, um nur die gewünschten Gruppen zu behalten
+data_filtered <- data_combined[data_combined$framing != "Neutral", ]
 
+# Dest und Dest_2 ----
 
-data_combined$framing <- ifelse(data_combined$framing == "positiv", "P", "N")
-
-# 2. Umwandeln der Daten in das "long" Format
-data_long <- data_combined %>%
+#Umwandeln der Daten in das "long" Format für Dest und Dest_2 
+data_long <- data_filtered %>%
   select(ID = ResponseId, framing, Dest, Dest_2) %>%
   gather(key = "time", value = "value", -ID, -framing) %>%
   mutate(time = factor(time, levels = c("Dest", "Dest_2")))
 
+
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Dest)
+shapiro.test(data_filtered$Dest_2)
+
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Dest ~ framing, data = data_filtered)
+leveneTest(Dest_2 ~ framing, data = data_filtered)
+
+# Testen der Sphärizität
+sphericity_test <- ezANOVA(
+  data = data_long,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
+  detailed = TRUE
+)
+
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test$Mauchly)
+
+# Gemischte ANOVA für Dest und Dest_2
 library(afex)
 mixed_anova_result <- aov_ez(data_long, dv = "value", id = "ID", between = "framing", within = "time")
 print(mixed_anova_result)
@@ -37,170 +69,239 @@ print(mixed_anova_result)
 
 
 
+# Charging und Charging_2----
 
 
 
+# Umwandeln der Daten in das "long" Format für Charging und Charging_2
+data_long_charging <- data_filtered %>%
+  select(ID = ResponseId, framing, Charging, Charging_2) %>%
+  gather(key = "time", value = "value", -ID, -framing) %>%
+  mutate(time = factor(time, levels = c("Charging", "Charging_2")))
 
+# 1. Auf Ausreißer prüfen
+boxplot(data_filtered$Charging, data_filtered$Charging_2, main="Check for Outliers", names=c("Charging", "Charging_2"))
 
+data_filtered %>%
+  select(ID = ResponseId, framing, Charging, Charging_2) %>%
+  pivot_longer(cols = c(Charging, Charging_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
 
-# Überprüfen Sie die eindeutigen Werte in den Spalten 'data_positiv' und 'data_negativ'
-unique(data_combined$data_positiv)
-unique(data_combined$data_negativ)
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Charging)
+shapiro.test(data_filtered$Charging_2)
 
-# Erstellen Sie eine temporäre Spalte, um zu sehen, wie die Bedingung funktioniert
-data_combined <- data_combined %>%
-  mutate(temp_framing = ifelse(data_positiv == 1, "P", "N"))
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Charging ~ framing, data = data_filtered)
+leveneTest(Charging_2 ~ framing, data = data_filtered)
 
-# Überprüfen Sie die eindeutigen Werte in der temporären Spalte
-unique(data_combined$temp_framing)
-
-# Überprüfen Sie die Länge der temporären Spalte
-length(data_combined$temp_framing)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Laden der benötigten Bibliotheken
-library(tidyverse)
-
-# Lesen des kombinierten Datensatzes
-data_combined <- readRDS("Daten/data_combined.rds")
-
-# Umformung der Daten in das "long" Format
-data_long <- data_combined %>%
-  gather(key = "time", value = "Dest", Dest, Dest_2) %>%
-  mutate(time = factor(time, levels = c("Dest", "Dest_2")))
-
-# Überprüfung auf fehlende Werte
-na_check <- any(is.na(data_long$Dest))
-if (na_check) {
-  warning("Es gibt fehlende Werte in der abhängigen Variable.")
-}
-
-# Überprüfung der Normalverteilung
-shapiro_test <- shapiro.test(data_combined$Dest)
-if (shapiro_test$p.value < 0.05) {
-  warning("Die Daten sind nicht normalverteilt.")
-}
-
-
-
-# Überprüfung der Homogenität der Varianz
-levene_test <- car::leveneTest(Dest ~ framing * time, data = data_long)
-if (levene_test$p.value < 0.05) {
-  warning("Die Varianz ist nicht homogen.")
-}
-
-
-
-
-
-
-
-
-
-
-#Neue Gruppe erstellen
-
-data_framing <- bind_rows(data_positiv, data_negativ)
-
-
-library(ez)
-
-# Lesen Sie den Datensatz ein
-data_combined <- readRDS("Daten/data_combined.rds")
-
-
-# Ändern Sie die Spaltennamen
-names(data_combined)[names(data_combined) == "concern_dest"] <- "concern_dest_before"
-names(data_combined)[names(data_combined) == "2concern_dest"] <- "concern_dest_after"
-
-# Daten umstrukturieren
-long_data <- data_combined %>%
-  pivot_longer(cols = c("concern_dest_before", "concern_dest_after"),
-               names_to = "time",
-               names_prefix = "concern_dest_",
-               values_to = "concern_dest")
-
-long_data
-
-# Überprüfen Sie die eindeutigen Werte in der Spalte "time"
-print(unique(long_data$time))
-
-# Ersetzen Sie NA-Werte durch den Durchschnitt der vorhandenen Werte
-long_data$concern_dest[is.na(long_data$concern_dest)] <- mean(long_data$concern_dest, na.rm = TRUE)
-
-# Führen Sie die gemischte ANOVA durch
-result <- ezANOVA(
-  data = long_data,
-  dv = concern_dest,
-  wid = ResponseId,
-  within = .(time),
+# Testen der Sphärizität
+sphericity_test_charging <- ezANOVA(
+  data = data_long_charging,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
   detailed = TRUE
 )
-print(result)
 
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test_charging$Mauchly)
 
-# Entfernen Sie Zeilen mit NA-Werten
-long_data <- long_data[!is.na(long_data$concern_dest), ]
+# Gemischte ANOVA für Charging und Charging_2
+mixed_anova_result_charging <- aov_ez(data_long_charging, dv = "value", id = "ID", between = "framing", within = "time")
+print(mixed_anova_result_charging)
 
-# Führen Sie die gemischte ANOVA durch
-result <- ezANOVA(
-  data = long_data,
-  dv = concern_dest,
-  wid = ResponseId,
-  within = .(time),
+#Time und Time_2
+
+# Umwandeln der Daten in das "long" Format für Time und Time_2
+data_long_time <- data_filtered %>%
+  select(ID = ResponseId, framing, Time, Time_2) %>%
+  gather(key = "time", value = "value", -ID, -framing) %>%
+  mutate(time = factor(time, levels = c("Time", "Time_2")))
+
+# 1. Auf Ausreißer prüfen
+boxplot(data_filtered$Time, data_filtered$Time_2, main="Check for Outliers", names=c("Time", "Time_2"))
+
+data_filtered %>%
+  select(ID = ResponseId, framing, Time, Time_2) %>%
+  pivot_longer(cols = c(Time, Time_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Time)
+shapiro.test(data_filtered$Time_2)
+
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Time ~ framing, data = data_filtered)
+leveneTest(Time_2 ~ framing, data = data_filtered)
+
+# Testen der Sphärizität
+sphericity_test_time <- ezANOVA(
+  data = data_long_time,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
   detailed = TRUE
 )
-print(result)
+
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test_time$Mauchly)
+
+# Gemischte ANOVA für Time und Time_2
+mixed_anova_result_time <- aov_ez(data_long_time, dv = "value", id = "ID", between = "framing", within = "time")
+print(mixed_anova_result_time)
 
 
-# Ändern Sie die Spaltennamen
-names(data_positiv)[names(data_positiv) == "concern_dest"] <- "concern_dest_before"
-names(data_positiv)[names(data_positiv) == "2concern_dest"] <- "concern_dest_after"
+# Accident und Accident_2 ----
 
-# Daten umstrukturieren
-long_data_pos <- data_positiv %>%
-  pivot_longer(cols = c("concern_dest_before", "concern_dest_after"),
-               names_to = "time",
-               names_prefix = "concern_dest_",
-               values_to = "concern_dest")
+# Umwandeln der Daten in das "long" Format für Accident und Accident_2
+data_long_accident <- data_filtered %>%
+  select(ID = ResponseId, framing, Accident, Accident_2) %>%
+  gather(key = "time", value = "value", -ID, -framing) %>%
+  mutate(time = factor(time, levels = c("Accident", "Accident_2")))
 
-# Überprüfen Sie die eindeutigen Werte in der Spalte "time"
-print(unique(long_data$time))
+# 1. Auf Ausreißer prüfen
+boxplot(data_filtered$Accident, data_filtered$Accident_2, main="Check for Outliers", names=c("Accident", "Accident_2"))
 
-# Ersetzen Sie NA-Werte durch den Durchschnitt der vorhandenen Werte
-long_data_pos$concern_dest[is.na(long_data_pos$concern_dest)] <- mean(long_data_pos$concern_dest, na.rm = TRUE)
+data_filtered %>%
+  select(ID = ResponseId, framing, Accident, Accident_2) %>%
+  pivot_longer(cols = c(Accident, Accident_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
 
-# Führen Sie die gemischte ANOVA durch
-result <- ezANOVA(
-  data = long_data,
-  dv = concern_dest,
-  wid = ResponseId,
-  within = .(time),
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Accident)
+shapiro.test(data_filtered$Accident_2)
+
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Accident ~ framing, data = data_filtered)
+leveneTest(Accident_2 ~ framing, data = data_filtered)
+
+# Testen der Sphärizität
+sphericity_test_accident <- ezANOVA(
+  data = data_long_accident,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
   detailed = TRUE
 )
-print(result)
+
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test_accident$Mauchly)
+
+# Gemischte ANOVA für Accident und Accident_2
+mixed_anova_result_accident <- aov_ez(data_long_accident, dv = "value", id = "ID", between = "framing", within = "time")
+print(mixed_anova_result_accident)
+
+
+#Price und Price_2 ----
+
+# Umwandeln der Daten in das "long" Format für Price und Price_2
+
+data_long_price <- data_filtered %>%
+  select(ID = ResponseId, framing, Price, Price_2) %>%
+  gather(key = "time", value = "value", -ID, -framing) %>%
+  mutate(time = factor(time, levels = c("Price", "Price_2")))
+
+# 1. Auf Ausreißer prüfen
+boxplot(data_filtered$Price, data_filtered$Price_2, main="Check for Outliers", names=c("Price", "Price_2"))
+
+data_filtered %>%
+  select(ID = ResponseId, framing, Price, Price_2) %>%
+  pivot_longer(cols = c(Price, Price_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Price)
+shapiro.test(data_filtered$Price_2)
+
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Price ~ framing, data = data_filtered)
+leveneTest(Price_2 ~ framing, data = data_filtered)
+
+# Testen der Sphärizität
+sphericity_test_price <- ezANOVA(
+  data = data_long_price,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
+  detailed = TRUE
+)
+
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test_price$Mauchly)
+
+# Gemischte ANOVA für Price und Price_2
+mixed_anova_result_price <- aov_ez(data_long_price, dv = "value", id = "ID", between = "framing", within = "time")
+print(mixed_anova_result_price)
 
 
 
-# To do for Anna
+#Support und Support_2----
 
-# suchen wie ich eine Anova mache --> Vorlage altes Forschungsseminar
-# Hypothesen sind im Dokument
+# Umwandeln der Daten in das "long" Format für Support und Support_2
+data_long_support <- data_filtered %>%
+  select(ID = ResponseId, framing, Support, Support_2) %>%
+  gather(key = "time", value = "value", -ID, -framing) %>%
+  mutate(time = factor(time, levels = c("Support", "Support_2")))
+
+# 1. Auf Ausreißer prüfen
+boxplot(data_filtered$Support, data_filtered$Support_2, main="Check for Outliers", names=c("Support", "Support_2"))
+
+data_filtered %>%
+  select(ID = ResponseId, framing, Support, Support_2) %>%
+  pivot_longer(cols = c(Support, Support_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# 2. Normalverteilung prüfen
+shapiro.test(data_filtered$Support)
+shapiro.test(data_filtered$Support_2)
+
+# 3. Überprüfung der Homogenität der Varianz (Levene-Test)
+leveneTest(Support ~ framing, data = data_filtered)
+leveneTest(Support_2 ~ framing, data = data_filtered)
+
+# Testen der Sphärizität
+sphericity_test_support <- ezANOVA(
+  data = data_long_support,
+  dv = value,
+  wid = ID,
+  within = time,
+  between = framing,
+  detailed = TRUE
+)
+
+# Ausgabe des Testergebnisses für Sphärizität
+print(sphericity_test_support$Mauchly)
+
+# Gemischte ANOVA für Support und Support_2
+mixed_anova_result_support <- aov_ez(data_long_support, dv = "value", id = "ID", between = "framing", within = "time")
+print(mixed_anova_result_support)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
