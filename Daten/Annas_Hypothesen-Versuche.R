@@ -1,5 +1,5 @@
 
-#Hypothese ---- 
+#Hypothese Einfluss von Erfahrung ---- 
 #       Personen, die bereits Erfahrung mit Elektroautos haben (Vorwissen), 
 #       lassen sich weniger beeinflussen als Personen ohne Erfahrung
 
@@ -109,3 +109,42 @@ summary(model_neg_before)
 # Nachher
 model_neg_after <- lm(Dest_2 ~ prior_knowledge, data = data_negativ)
 summary(model_neg_after)
+
+# Hypothese Einfluss von Geschlecht ----
+# Laden der benötigten Bibliotheken
+library(dplyr)
+library(ggplot2)
+library(stats)
+library(car)
+
+# Lineare Regression für dest_before
+model_before_dest <- lm(Dest ~ gender, data = data_combined)
+summary(model_before_dest)
+
+#ANOVA für dest_before
+anova_before_dest <- aov(Dest ~ gender, data = data_combined)
+summary(anova_before_dest)
+
+# Daten Risikowahrnehmung_before zusammensetzen und umbenennen
+data_combined <- data_combined %>%
+  mutate(risk_before = (Dest + Charging + Time + Accident + Price + Support) / 6)
+
+# ANOVA für risk_before
+anova_result_before <- aov(risk_before ~ gender, data = data_combined)
+
+# ANOVA-Ergebnisse risk_before
+summary(anova_result_before)
+
+# Daten Risikowahrnehmung_after zusammensetzen und umbenennen
+data_combined <- data_combined %>%
+  mutate(risk_after = (Dest_2 + Charging_2 + Time_2 + Accident_2 + Price_2 + Support_2) / 6)
+
+# ANOVA für risk_after
+anova_result_after <- aov(risk_after ~ gender, data = data_combined)
+
+# ANOVA-Ergebnisse risk_after
+summary(anova_result_after)
+
+
+
+# Hypothese für Tech
