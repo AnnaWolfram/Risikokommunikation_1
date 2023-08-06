@@ -69,7 +69,6 @@ data_filtered %>%
   group_by(time, framing) %>%
   identify_outliers(value)
 
-# Ausreißer ----
 
 #Normalverteilung nach Anderson-Darling-Test ----
 
@@ -127,7 +126,7 @@ ggplot(data_filtered, aes(x = Dest)) +
 qqnorm(data_filtered$Dest)
 qqline(data_filtered$Dest)
 
-
+#Ab hier: Hypothesenvorbereitung und Prüfung pro Risikowahrnehmung (teilweise Doppelungen)
 # Dest und Dest_2 ----
 
 #Umwandeln der Daten in das "long" Format für Dest und Dest_2 
