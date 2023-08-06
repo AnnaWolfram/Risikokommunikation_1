@@ -31,6 +31,103 @@ data_combined$framing <- ifelse(!is.na(data_combined$n_control_reading), "N",
 # Filtern Sie die Daten, um nur die gewünschten Gruppen zu behalten
 data_filtered <- data_combined[data_combined$framing != "Neutral", ]
 
+
+
+# Alle Outlier prüfen ----
+# Identify outliers for Dest and Dest_2
+data_filtered %>%
+  select(ID = ResponseId, framing, Dest, Dest_2) %>%
+  pivot_longer(cols = c(Dest, Dest_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# Identify outliers for Accident and Accident_2
+data_filtered %>%
+  select(ID = ResponseId, framing, Accident, Accident_2) %>%
+  pivot_longer(cols = c(Accident, Accident_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# Identify outliers for Price and Price_2
+data_filtered %>%
+  select(ID = ResponseId, framing, Price, Price_2) %>%
+  pivot_longer(cols = c(Price, Price_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# Identify outliers for Support and Support_2
+data_filtered %>%
+  select(ID = ResponseId, framing, Support, Support_2) %>%
+  pivot_longer(cols = c(Support, Support_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# Identify outliers for Time and Time_2
+data_filtered %>%
+  select(ID = ResponseId, framing, Time, Time_2) %>%
+  pivot_longer(cols = c(Time, Time_2), names_to = "time", values_to = "value") %>%
+  group_by(time, framing) %>%
+  identify_outliers(value)
+
+# Ausreißer ----
+
+#Normalverteilung nach Anderson-Darling-Test ----
+
+# Laden des nortest-Pakets
+install.packages("nortest")
+library(nortest)
+
+# Anderson-Darling-Test für die Variable "Dest"
+ad_test_dest <- ad.test(data_filtered$Dest)
+print(ad_test_dest)
+
+# Anderson-Darling-Test für die Variable "Dest_2"
+ad_test_dest_2 <- ad.test(data_filtered$Dest_2)
+print(ad_test_dest_2)
+
+# Anderson-Darling-Test für die Variable "Charging"
+ad_test_charging <- ad.test(data_filtered$Charging)
+print(ad_test_charging)
+
+# Anderson-Darling-Test für die Variable "Charging_2"
+ad_test_charging_2 <- ad.test(data_filtered$Charging_2)
+print(ad_test_charging_2)
+
+# Anderson-Darling-Test für die Variable "Price"
+ad_test_price <- ad.test(data_filtered$Price)
+print(ad_test_price)
+
+# Anderson-Darling-Test für die Variable "Price_2"
+ad_test_price_2 <- ad.test(data_filtered$Price_2)
+print(ad_test_price_2)
+
+# Anderson-Darling-Test für die Variable "Support"
+ad_test_support <- ad.test(data_filtered$Support)
+print(ad_test_support)
+
+# Anderson-Darling-Test für die Variable "Support_2"
+ad_test_support_2 <- ad.test(data_filtered$Support_2)
+print(ad_test_support_2)
+
+# Anderson-Darling-Test für die Variable "Time"
+ad_test_time <- ad.test(data_filtered$Time)
+print(ad_test_time)
+
+# Anderson-Darling-Test für die Variable "Time_2"
+ad_test_time_2 <- ad.test(data_filtered$Time_2)
+print(ad_test_time_2)
+
+library(ggplot2)
+
+ggplot(data_filtered, aes(x = Dest)) +
+  geom_histogram(aes(y = ..density..), bins = 30) +
+  geom_density(alpha = .2, fill = "#FF6666") +
+  ggtitle("Density Plot and Histogram of Dest")
+
+qqnorm(data_filtered$Dest)
+qqline(data_filtered$Dest)
+
+
 # Dest und Dest_2 ----
 
 #Umwandeln der Daten in das "long" Format für Dest und Dest_2 
@@ -60,6 +157,8 @@ sphericity_test <- ezANOVA(
 
 # Ausgabe des Testergebnisses für Sphärizität
 print(sphericity_test$Mauchly)
+
+
 
 # Gemischte ANOVA für Dest und Dest_2
 library(afex)
@@ -109,6 +208,14 @@ sphericity_test_charging <- ezANOVA(
 # Ausgabe des Testergebnisses für Sphärizität
 print(sphericity_test_charging$Mauchly)
 
+library(lme4)
+
+# Erstelle das Modell mit einer geeigneten Verteilung für deine Daten (z.B. binomial)
+model <- glmer(value ~ framing * time + (1|ID), data = data_long_charging, family = binomial)
+summary(model)
+
+
+ bb
 # Gemischte ANOVA für Charging und Charging_2
 mixed_anova_result_charging <- aov_ez(data_long_charging, dv = "value", id = "ID", between = "framing", within = "time")
 print(mixed_anova_result_charging)
