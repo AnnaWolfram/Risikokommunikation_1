@@ -11,12 +11,12 @@ library(dplyr)
 # Daten für "risk_before" auswählen und Zeitpunkt hinzufügen
 risk_before <- data_combined %>%
   select(ResponseId, Dest, Charging, Time, Accident, Price, Support) %>%
-  mutate(Time = "Vor")
+  mutate(Zeit = "Vor")
 
 # Daten für "risk_after" auswählen und Zeitpunkt hinzufügen
 risk_after <- data_combined %>%
   select(ResponseId, Dest_2, Charging_2, Time_2, Accident_2, Price_2, Support_2) %>%
-  mutate(Time = "Nach")
+  mutate(Zeit = "Nach")
 
 # Verknüpfung von risk_before und risk_after mit data_combined
 risk_before <- left_join(risk_before, data_combined[, c("ResponseId", "prior_knowledge")], by = "ResponseId")
