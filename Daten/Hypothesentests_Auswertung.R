@@ -8,9 +8,9 @@ saveRDS(data_combined, "Daten/data_combined.rds")
 #installed.packages("tidyverse")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #install.packages("careless")
-install.packages("jmv")
-install.packages("rstatix")
-install.packages("ez")
+#install.packages("jmv")
+#install.packages("rstatix")
+#install.packages("ez")
 
 library(hcictools)
 library(tidyverse)
@@ -390,9 +390,54 @@ print(mixed_anova_result_support)
 
 
 
+#### Hypothese Frauen lassen sich eher beeinflussen als Männer.
+
+# Daten filtern, um nur "männlich" und "weiblich" zu behalten
+data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblich"), ]
+
+# t-Test durchführen
+jmv::ttestIS(
+  formula = Absolute_Änderung_RW ~ gender,
+  data = data_filtered,
+  vars = "Absolute_Änderung_RW",
+  norm = TRUE,
+  qq = TRUE,
+  eqv = TRUE,
+  desc = TRUE
+)
 
 
 
+
+
+
+
+#### Hypothese Personen, die bereits Erfahrung mit Elektroautos haben (Vorwissen), 
+# lassen sich weniger beeinflussen als Personen ohne Erfahrung.
+
+# Vorwissen kategorisieren
+data_filtered$prior_knowledge_cat <- ifelse(data_filtered$prior_knowledge %in% c("Ich könnte ihre Funktionsweise im Detail erklären.", "Ich habe eine relativ klare Vorstellung, wie E-Autos funktionieren.", "Ich habe eine ungefähre Vorstellung über die Funktionsweise von E-Autos."), "Mit Vorwissen", "Ohne Vorwissen")
+
+# Daten für ANOVA vorbereiten
+data_for_anova <- data_filtered %>%
+  filter(!is.na(prior_knowledge_cat)) %>%  # Filtern von NA-Werten
+  select(prior_knowledge_cat, Absolute_Änderung_RW)
+
+# ANOVA durchführen
+anova_result <- aov(Absolute_Änderung_RW ~ prior_knowledge_cat, data = data_for_anova)
+
+# ANOVA-Ergebnisse anzeigen
+summary(anova_result)
+
+# Ergebnisse in eine Tabelle umwandeln
+anova_table <- tidy(anova_result)
+
+# Die Tabelle anzeigen
+print(anova_table)
+
+# Boxplot erstellen
+boxplot(Absolute_Änderung_RW ~ prior_knowledge_cat, data = data_for_anova, main = "Änderung der Risikowahrnehmung nach Framing",
+        xlab = "Vorwissen", ylab = "Absolute Änderung")
 
 
 
