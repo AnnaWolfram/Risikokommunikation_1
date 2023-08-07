@@ -1,31 +1,52 @@
 #Versuch Auswertung Hypothese: Je höher die Technikbereitschaft (TB), desto weniger lassen sich Personen durch das Framing beeinflussen.
 
 # Es soll eine Korrelation gerechnet werden. Je höher die TB höher, desto niedriger die Änderung der allgemeinen Risikowahrnehmung zwischen vor- und nach-Framing. 
+ 
+# Daten für "risk_before_mit_Neutral" auswählen und Zeitpunkt hinzufügen
+risk_before_mit_Neutral <- data_combined %>%
+  select(ResponseId, Dest, Charging, Time, Accident, Price, Support, framing) %>%
+  mutate(Zeit = "Vor")
+
+# Daten für "risk_after_mit_Neutral" auswählen und Zeitpunkt hinzufügen
+risk_after_mit_Neutral <- data_combined %>%
+  select(ResponseId, Dest_2, Charging_2, Time_2, Accident_2, Price_2, Support_2, framing) %>%
+  mutate(Zeit = "Nach")
+
+# Aus risk_before_mit_Neutral und risk_after_mit_Neutral alle Neutralen filtern
+
+risk_before_neutral_filtered <- risk_before_mit_Neutral[risk_before_mit_Neutral$framing != "Neutral", ]
+risk_after_neutral_filtered <- risk_after_mit_Neutral[risk_after_mit_Neutral$framing != "Neutral", ]
+
 
 # Zuerst den Mean von allen Aspekten bei Time_before und Time_after berechnen (weil allgemeine Risikowahrnehmung)
-risk_before_durchschnitt_Risikowahrnehmung <- colMeans(risk_before [, 2:7]) #falsch!
 
-risk_after_durchschnitt_Risikowahrnehmung <- colMeans(risk_after[, 2:7]) #falsch! 
+risk_after_durchschnitt_RW <- rowMeans(risk_after_neutral_filtered [, c(2:7)]) # Mean über Zeilen, sollte korrekt sein!
+risk_after_durchschnitt_RW
 
-risk_after_durchschnitt_risiko_test <- rowMeans(risk_after [, c(2:7)]) # Mean über Zeilen, sollte korrekt sein!
-risk_after_durchschnitt_risiko_test
+risk_before_durchschnitt_RW <- rowMeans(risk_before_neutral_filtered [, c(2:7)])
+risk_before_durchschnitt_RW
 
-#ACHTUNG: in risk_before ist die falsche Time variable (vor und nicht mean) dies muss behoben werden bevor ich weiterrechne.
 #die ColMeans werden als Value gespeichert --> für die Korrelation benötige ich sie aber in einem Datensatz (passend zur jeweiligen ResponseID)
 
 # Jetzt kann die Änderung (Differenz) von den Mittelwerten vor-Framing und nach-Framing berechnet werden.
 # WICHTIG: Wie subtrahiert man bestimmte Variablen von einzelnen Datensätzen? Damit ich nicht ResponseID und Time (vor/nach) löschen muss.
     
-Differenz_before_after_durchschnitt_RW <- risk_before_durchschnitt_Risikowahrnehmung - risk_after_durchschnitt_Risikowahrnehmung
+Differenz_before_after_durchschnitt_RW <- risk_before_durchschnitt_RW - risk_after_durchschnitt_RW
 
 
 # Wir benötigen keine negativen Zahlen, sondern nur die Änderung --> Daher den Betrag berechnen.
 
-abs(Differenz_before_after_durchschnitt_RW)
+Betrag_Differenz_before_after_durchschnitt_RW <- abs(Differenz_before_after_durchschnitt_RW)
+print(Betrag_Differenz_before_after_durchschnitt_RW)
 
+
+# Differenz_before_after_durchschnitt_RW als Spalte in Datensatz data_filtered hinzufügen
+
+data_filtered <- mutate(data_filtered, Absolute_Änderung_RW = Betrag_Differenz_before_after_durchschnitt_RW )
+print(data_filtered)
 
 # Jetzt kann die Korrelation berechnet werden.
 
 jmv::corrMatrix(
   data = data_filtered,
-  vars = vars(Tech_Interaction, Differenz_before_after_durchschnitt_RW))
+  vars = vars(Tech_Interaction, Absolute_Änderung_RW))
