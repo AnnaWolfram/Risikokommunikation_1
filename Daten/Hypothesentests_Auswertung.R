@@ -207,14 +207,6 @@ sphericity_test_charging <- ezANOVA(
 # Ausgabe des Testergebnisses für Sphärizität
 print(sphericity_test_charging$Mauchly)
 
-library(lme4)
-
-# Erstelle das Modell mit einer geeigneten Verteilung für deine Daten (z.B. binomial)
-model <- glmer(value ~ framing * time + (1|ID), data = data_long_charging, family = binomial)
-summary(model)
-
-
- bb
 # Gemischte ANOVA für Charging und Charging_2
 mixed_anova_result_charging <- aov_ez(data_long_charging, dv = "value", id = "ID", between = "framing", within = "time")
 print(mixed_anova_result_charging)
