@@ -69,18 +69,7 @@ data_long <- data_filtered %>%
 leveneTest(Dest ~ framing, data = data_filtered)
 leveneTest(Dest_2 ~ framing, data = data_filtered)
 
-#Testen der Sphärizität ----
-sphericity_test <- ezANOVA(
-  data = data_long,
-  dv = value,
-  wid = ID,
-  within = time,
-  between = framing,
-  detailed = TRUE
-)
 
-# Ausgabe des Testergebnisses für Sphärizität
-print(sphericity_test$Mauchly)
 
 # Gemischte ANOVA für Dest und Dest_2 ----
 library(afex)
@@ -88,4 +77,15 @@ mixed_anova_result <- aov_ez(data_long, dv = "value", id = "ID", between = "fram
 print(mixed_anova_result)
 
 
-#Post-Hoc Test
+#Haupteffekte überprüfen mittels T-Test
+data_long %>%
+  pairwise_t_test(
+    value ~ time, paired = TRUE, 
+    p.adjust.method = "bonferroni"
+  )
+
+data_long %>%
+  pairwise_t_test(
+    value ~ framing, 
+    p.adjust.method = "bonferroni"
+  )
