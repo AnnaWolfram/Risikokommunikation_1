@@ -8,9 +8,9 @@ saveRDS(data_combined, "Daten/data_combined.rds")
 #installed.packages("tidyverse")
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #install.packages("careless")
-install.packages("jmv")
-install.packages("rstatix")
-install.packages("ez")
+#install.packages("jmv")
+#install.packages("rstatix")
+#install.packages("ez")
 
 library(hcictools)
 library(tidyverse)
@@ -394,9 +394,9 @@ data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblic
 
 # t-Test durchführen
 jmv::ttestIS(
-  formula = Absolute_Änderung_RW ~ gender,
+  formula = Änderung_RW ~ gender,
   data = data_filtered,
-  vars = "Absolute_Änderung_RW",
+  vars = "Änderung_RW",
   norm = TRUE,
   qq = TRUE,
   eqv = TRUE,
