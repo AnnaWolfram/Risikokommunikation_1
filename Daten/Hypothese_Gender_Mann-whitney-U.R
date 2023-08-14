@@ -1,3 +1,6 @@
+#Vorbereitung: VORHER HYPOTHESE_TECHNIKBEREITSCHAFT AUSFÜHREN!
+
+
 #### Hypothese Frauen lassen sich eher beeinflussen als Männer.
 
 # Daten filtern, um nur "männlich" und "weiblich" zu behalten
@@ -26,9 +29,10 @@ jmv::ttestIS(
   norm = TRUE,
   qq = TRUE,
   eqv = TRUE,
+  effectSize = TRUE,
   desc = TRUE)
 
-# --> Ergebnis nicht Signifikant
+# --> Ergebnis nicht Signifikant.
 
-# Wir könnten generell noch die Teststärke berechnen und prüfen, ob unsere Stichprobe groß genug war, wenn nicht wär das ein Punkt für die Diskussion
+
 
