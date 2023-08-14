@@ -26,3 +26,15 @@ ggplot(daten, aes(x = prior_knowledge, y = Änderung_RW)) +
 
 
 data_filtered$prior_knowledge
+
+
+
+# Kruskal-Wallis-Anova
+
+jmv::anovaNP(
+  formula = Änderung_RW ~ prior_knowledge,
+  data = data_filtered,
+  es = TRUE,
+  pairs = TRUE)
+
+# es = Effektstärke // pairs = paarweise Vergleiche nach DSCF
