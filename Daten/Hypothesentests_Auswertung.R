@@ -403,7 +403,19 @@ jmv::ttestIS(
   desc = TRUE
 )
 
+# --> Levene's Test schlägt aus (Verletzung Annahme gleicher Varianzen) und Shapiro-Wilk-Test schlägt aus (Verletzung Normalverteilung)
 
+# Da Voraussetzung für parametrisches Verfahren (t-Test) nicht erfüllt sind, wird Mann-Whitney-U-Test angewandt
+jmv::ttestIS(
+  formula = Änderung_RW ~ gender,
+  data = data_filtered,
+  vars = "Änderung_RW",
+  students = FALSE,
+  mann = TRUE,
+  norm = TRUE,
+  qq = TRUE,
+  eqv = TRUE,
+  desc = TRUE)
 
 
 

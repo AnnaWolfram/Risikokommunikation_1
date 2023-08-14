@@ -1,3 +1,12 @@
+#Vorbereitung:
+
+    # Hinzufügen einer Framing-Gruppe
+      data_combined$framing <- ifelse(!is.na(data_combined$n_control_reading), "N",
+                                ifelse(!is.na(data_combined$control_question), "P", "Neutral"))
+
+    # Filtern Sie die Daten, um nur die gewünschten Gruppen zu behalten
+      data_filtered <- data_combined[data_combined$framing != "Neutral", ]
+
 #Versuch Auswertung Hypothese: Je höher die Technikbereitschaft (TB), desto weniger lassen sich Personen durch das Framing beeinflussen.
 
 # Es soll eine Korrelation gerechnet werden. Je höher die TB höher, desto niedriger die Änderung der allgemeinen Risikowahrnehmung zwischen vor- und nach-Framing. 
