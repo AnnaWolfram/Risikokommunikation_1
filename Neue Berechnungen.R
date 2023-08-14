@@ -90,6 +90,47 @@ anova_Risiko_post <- aov(Risiko_post ~ prior_knowledge_numeric, data = data_comb
 summary(anova_Risiko_post)
 
 
+
+# Berechnung der Differenzen von pre und post
+data_combined$Dest_diff <- data_combined$Dest_2 - data_combined$Dest
+data_combined$Charging_diff <- data_combined$Charging_2 - data_combined$Charging
+data_combined$Time_diff <- data_combined$Time_2 - data_combined$Time
+data_combined$Accident_diff <- data_combined$Accident_2 - data_combined$Accident
+data_combined$Price_diff <- data_combined$Price_2 - data_combined$Price
+data_combined$Support_diff <- data_combined$Support_2 - data_combined$Support
+
+# ANOVA für die Differenzen
+anova_Dest_diff <- aov(Dest_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Dest_diff)
+
+anova_Charging_diff <- aov(Charging_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Charging_diff)
+
+anova_Time_diff <- aov(Time_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Time_diff)
+
+anova_Accident_diff <- aov(Accident_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Accident_diff)
+
+anova_Price_diff <- aov(Price_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Price_diff)
+
+anova_Support_diff <- aov(Support_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Support_diff)
+
+# ANOVA für die Differenzen von pre und post (gesamt)
+data_combined$Risiko_diff <- data_combined$Dest_diff +
+  data_combined$Charging_diff +
+  data_combined$Time_diff +
+  data_combined$Accident_diff +
+  data_combined$Price_diff +
+  data_combined$Support_diff
+
+# ANOVA für die Gesamtdifferenz in der Risikowahrnehmung
+anova_Risiko_diff <- aov(Risiko_diff ~ prior_knowledge_numeric, data = data_combined)
+summary(anova_Risiko_diff)
+
+
 #Visualisierung----
 # Pakete laden
 library(ggplot2)
