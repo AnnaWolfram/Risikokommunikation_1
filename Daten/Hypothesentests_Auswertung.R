@@ -385,10 +385,12 @@ mixed_anova_result_support <- aov_ez(data_long_support, dv = "value", id = "ID",
 print(mixed_anova_result_support)
 
 
+
+
 #### Hypothese Frauen lassen sich eher beeinflussen als Männer.
 
 # Daten filtern, um nur "männlich" und "weiblich" zu behalten
-data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblich"), ]
+data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblich"), ] #hier wird eine Person aus dem Datensatz gefiltert!
 
 # t-Test durchführen
 jmv::ttestIS(
@@ -406,6 +408,7 @@ jmv::ttestIS(
 
 
 
+#ALTE BERECHNUNG: (Neue Berechnung in "Neue Berechnungen"!)
 
 #### Hypothese Personen, die bereits Erfahrung mit Elektroautos haben (Vorwissen), 
 # lassen sich weniger beeinflussen als Personen ohne Erfahrung.

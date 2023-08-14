@@ -147,4 +147,3 @@ summary(anova_result_after)
 
 
 
-# Hypothese für Tech

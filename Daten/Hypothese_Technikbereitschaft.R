@@ -33,8 +33,34 @@ risk_before_durchschnitt_RW
     
 Differenz_before_after_durchschnitt_RW <- risk_before_durchschnitt_RW - risk_after_durchschnitt_RW
 
+#folgender Schritt laut Prof. Arning falsch: Sie möchte mit negativen Zahlen!!!
+## Wir benötigen keine negativen Zahlen, sondern nur die Änderung --> Daher den Betrag berechnen.
 
-# Wir benötigen keine negativen Zahlen, sondern nur die Änderung --> Daher den Betrag berechnen.
+#Betrag_Differenz_before_after_durchschnitt_RW <- abs(Differenz_before_after_durchschnitt_RW)
+#print(Betrag_Differenz_before_after_durchschnitt_RW)
+
+
+# Differenz_before_after_durchschnitt_RW als Spalte in Datensatz data_filtered hinzufügen
+
+data_filtered <- mutate(data_filtered, Änderung_RW = Differenz_before_after_durchschnitt_RW )
+print(data_filtered)
+
+# Jetzt kann die Korrelation berechnet werden.
+
+jmv::corrMatrix(
+  data = data_filtered,
+  vars = vars(Tech_Interaction, Änderung_RW))
+
+#--> p-Value nicht mehr signifikant (wenn man mit Betrag rechnet, ist er signifikant)
+
+
+#-----------------------------------------------------------------------------
+
+#Mit Betrag gerechnet:
+ 
+
+#folgender Schritt laut Prof. Arning falsch: Sie möchte mit negativen Zahlen!!!
+## Wir benötigen keine negativen Zahlen, sondern nur die Änderung --> Daher den Betrag berechnen.
 
 Betrag_Differenz_before_after_durchschnitt_RW <- abs(Differenz_before_after_durchschnitt_RW)
 print(Betrag_Differenz_before_after_durchschnitt_RW)
@@ -42,13 +68,11 @@ print(Betrag_Differenz_before_after_durchschnitt_RW)
 
 # Differenz_before_after_durchschnitt_RW als Spalte in Datensatz data_filtered hinzufügen
 
-data_filtered <- mutate(data_filtered, Absolute_Änderung_RW = Betrag_Differenz_before_after_durchschnitt_RW )
+data_filtered <- mutate(data_filtered, Betrag_Änderung_RW = Betrag_Differenz_before_after_durchschnitt_RW )
 print(data_filtered)
 
 # Jetzt kann die Korrelation berechnet werden.
 
 jmv::corrMatrix(
   data = data_filtered,
-  vars = vars(Tech_Interaction, Absolute_Änderung_RW))
-
-#Sauerbraten
+  vars = vars(Tech_Interaction, Betrag_Änderung_RW))
