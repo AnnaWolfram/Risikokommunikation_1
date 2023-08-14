@@ -2,6 +2,7 @@
 library(tidyverse)
 
 # Hypothese: Frauen lassen sich eher beeinflussen als Männer----
+
 # Daten einlesen und überprüfen
 data_combined <- readRDS("Daten/data_combined.rds")
 
