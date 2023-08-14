@@ -42,13 +42,6 @@ risk_before_durchschnitt_RW
     
 Differenz_before_after_durchschnitt_RW <- risk_before_durchschnitt_RW - risk_after_durchschnitt_RW
 
-#folgender Schritt laut Prof. Arning falsch: Sie möchte mit negativen Zahlen!!!
-## Wir benötigen keine negativen Zahlen, sondern nur die Änderung --> Daher den Betrag berechnen.
-
-#Betrag_Differenz_before_after_durchschnitt_RW <- abs(Differenz_before_after_durchschnitt_RW)
-#print(Betrag_Differenz_before_after_durchschnitt_RW)
-
-
 # Differenz_before_after_durchschnitt_RW als Spalte in Datensatz data_filtered hinzufügen
 
 data_filtered <- mutate(data_filtered, Änderung_RW = Differenz_before_after_durchschnitt_RW )
@@ -58,9 +51,26 @@ print(data_filtered)
 
 jmv::corrMatrix(
   data = data_filtered,
-  vars = vars(Tech_Interaction, Änderung_RW))
+  vars = vars(Tech_Interaction, Änderung_RW),
+  spearman = TRUE,
+  kendall = TRUE)
 
 #--> p-Value nicht mehr signifikant (wenn man mit Betrag rechnet, ist er signifikant)
+#--> wenn Voraussetzungen für parametrische Verfahren nicht erfüllt sind, bieten sich Spearman Korrelation oder Kendall's Tau an
+
+# --> Alles nicht signifikant.
+
+
+# Zur Interpretation: Ein negativer Korrelationskoeffizient würde darauf hindeuten, dass höhere Technikbereitschaft mit geringerer Beeinflussbarkeit durch das Framing korreliert.
+
+
+
+
+
+
+
+
+
 
 
 #-----------------------------------------------------------------------------
