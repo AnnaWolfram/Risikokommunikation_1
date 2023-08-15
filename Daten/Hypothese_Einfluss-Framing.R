@@ -7,12 +7,12 @@ data_combined <- readRDS("Daten/data_combined.rds")
 # Hypothese: Einfluss von Framing positiv auf Risikowahrnehmung----
 
 # Daten für "risk_before_mit_Neutral" auswählen und Zeitpunkt hinzufügen
-risk_before_mit_Neutral <- data_combined %>%
+risk_before_mit_Neutral <- data_filtered %>%
   select(ResponseId, Dest, Charging, Time, Accident, Price, Support, framing) %>%
   mutate(Zeit = "Vor")
 
 # Daten für "risk_after_mit_Neutral" auswählen und Zeitpunkt hinzufügen
-risk_after_mit_Neutral <- data_combined %>%
+risk_after_mit_Neutral <- data_filtered %>%
   select(ResponseId, Dest_2, Charging_2, Time_2, Accident_2, Price_2, Support_2, framing) %>%
   mutate(Zeit = "Nach")
 
