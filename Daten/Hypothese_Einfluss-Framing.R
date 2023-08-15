@@ -31,8 +31,7 @@ risk_diff <- data.frame(
   diff_price = risk_after_neutral_filtered$Price_2 - risk_before_neutral_filtered$Price,
   diff_support = risk_after_neutral_filtered$Support_2 - risk_before_neutral_filtered$Support,
   framing = risk_before_neutral_filtered$framing)
-
-  risk_diff                      
+                     
                         
   # Wilcoxon-Rangsummentest für den Unterschied in "dest"
   wilcox_dest <- wilcox.test(diff_dest ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
@@ -79,8 +78,17 @@ risk_diff <- data.frame(
   #Allgemeine Risikowahnehmung ----
   # Summe der Differenzen für jede Person
   risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
-  
-  
+risk_diff$overall_diff
+library(dplyr)
+
+# Füge die overall_diff-Spalte aus risk_diff zu data_filtered hinzu, basierend auf der ResponseId-Variable
+data_filtered <- data_filtered %>%
+  left_join(select(risk_diff, ResponseId, overall_diff), by = "ResponseId")
+
+
+
+
+
   #Mittelwert der gesamten Differenzen für N- und P-Gruppen:
 
 overall_diff_mean <- risk_diff %>%
@@ -88,6 +96,7 @@ overall_diff_mean <- risk_diff %>%
   group_by(framing) %>%
   summarise(mean_overall_diff = mean(overall_diff))
 
+overall_diff_mean
 #Vergleichen der Gesamtdifferenzen zwischen N- und P-Gruppen mit dem Wilcoxon-Test:
 wilcox_overall <- wilcox.test(overall_diff ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
 
