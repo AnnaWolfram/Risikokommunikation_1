@@ -35,12 +35,13 @@ risk_after_durchschnitt_RW
 risk_before_durchschnitt_RW <- rowMeans(risk_before_neutral_filtered [, c(2:7)])
 risk_before_durchschnitt_RW
 
+
 #die ColMeans werden als Value gespeichert --> für die Korrelation benötige ich sie aber in einem Datensatz (passend zur jeweiligen ResponseID)
 
 # Jetzt kann die Änderung (Differenz) von den Mittelwerten vor-Framing und nach-Framing berechnet werden.
 # WICHTIG: Wie subtrahiert man bestimmte Variablen von einzelnen Datensätzen? Damit ich nicht ResponseID und Time (vor/nach) löschen muss.
     
-Differenz_before_after_durchschnitt_RW <- risk_before_durchschnitt_RW - risk_after_durchschnitt_RW
+Differenz_before_after_durchschnitt_RW <- risk_after_durchschnitt_RW - risk_before_durchschnitt_RW
 
 # Differenz_before_after_durchschnitt_RW als Spalte in Datensatz data_filtered hinzufügen
 
@@ -62,13 +63,6 @@ jmv::corrMatrix(
 
 
 # Zur Interpretation: Ein negativer Korrelationskoeffizient würde darauf hindeuten, dass höhere Technikbereitschaft mit geringerer Beeinflussbarkeit durch das Framing korreliert.
-
-
-
-
-
-
-
 
 
 

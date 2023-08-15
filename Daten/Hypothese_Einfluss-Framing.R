@@ -80,6 +80,7 @@ risk_diff <- data.frame(
   # Summe der Differenzen für jede Person
   risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
   
+  
   #Mittelwert der gesamten Differenzen für N- und P-Gruppen:
 
 overall_diff_mean <- risk_diff %>%
