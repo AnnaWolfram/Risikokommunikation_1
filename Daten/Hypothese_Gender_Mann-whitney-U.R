@@ -8,9 +8,9 @@ data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblic
 
 # t-Test durchführen
 jmv::ttestIS(
-  formula = Änderung_RW ~ gender,
+  formula = overall_diff ~ gender,
   data = data_filtered,
-  vars = "Änderung_RW",
+  vars = "overall_diff",
   norm = TRUE,
   qq = TRUE,
   eqv = TRUE,
@@ -21,9 +21,9 @@ jmv::ttestIS(
 
 # Da Voraussetzung für parametrisches Verfahren (t-Test) nicht erfüllt sind, wird Mann-Whitney-U-Test angewandt
 jmv::ttestIS(
-  formula = Änderung_RW ~ gender,
+  formula = overall_diff ~ gender,
   data = data_filtered,
-  vars = "Änderung_RW",
+  vars = "overall_diff",
   students = FALSE,
   mann = TRUE,
   norm = TRUE,
