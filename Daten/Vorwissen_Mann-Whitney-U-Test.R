@@ -19,14 +19,14 @@ data_filtered <- data_filtered %>%
 # Daten in zwei Gruppen aufteilen
 group1 <- data_filtered %>%
   filter(prior_knowledge_numeric == 1) %>%
-  select(Änderung_RW)
+  select(overall_diff)
 
 group2 <- data_filtered %>%
   filter(prior_knowledge_numeric == 2) %>%
-  select(Änderung_RW)
+  select(overall_diff)
 
 # Durchführung des Mann-Whitney-U-Tests
-mwu_result <- wilcox.test(group1$Änderung_RW, group2$Änderung_RW)
+mwu_result <- wilcox.test(group1$overall_diff, group2$overall_diff)
 
 # Anzeigen der Ergebnisse
 print(mwu_result)
@@ -40,7 +40,7 @@ data_filtered$prior_knowledge_numeric <- as.factor(data_filtered$prior_knowledge
 is.factor(data_filtered$prior_knowledge_numeric)
 
 # Robuste ANOVA mit oneway_test
-robust_anova_one_way_result <- oneway_test(Änderung_RW ~ prior_knowledge_numeric, data = data_filtered)
+robust_anova_one_way_result <- oneway_test(overall_diff ~ prior_knowledge_numeric, data = data_filtered)
 print(robust_anova_one_way_result)
 
 # Robuste ANOVA --------------------------------------
@@ -49,7 +49,7 @@ print(robust_anova_one_way_result)
 library(robustbase)
 
 # Robuste ANOVA
-robust_anova_result <- lmrob(Änderung_RW ~ prior_knowledge_numeric, data = data_filtered)
+robust_anova_result <- lmrob(overall_diff ~ prior_knowledge_numeric, data = data_filtered)
 
 # Zusammenfassung der Ergebnisse
 print(robust_anova_result)
