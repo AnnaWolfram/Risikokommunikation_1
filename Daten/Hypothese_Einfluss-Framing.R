@@ -81,18 +81,19 @@ risk_diff <- data.frame(
   risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
   
   #Mittelwert der gesamten Differenzen für N- und P-Gruppen:
-  
-  overall_diff_mean <- risk_diff %>%
-    filter(framing %in% c("P", "N")) %>%
-    group_by(framing) %>%
-    summarise(mean_overall_diff = mean(overall_diff))
-  
-  #Vergleichen der Gesamtdifferenzen zwischen N- und P-Gruppen mit dem Wilcoxon-Test:
-  wilcox_overall <- wilcox.test(overall_diff ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
-  
-  print(wilcox_overall)
-  
-  median_diff_N <- median(overall_diff[framing == "N"])
-  median_diff_P <- median(overall_diff[framing == "P"])
-  
-  
+
+overall_diff_mean <- risk_diff %>%
+  filter(framing %in% c("P", "N")) %>%
+  group_by(framing) %>%
+  summarise(mean_overall_diff = mean(overall_diff))
+
+#Vergleichen der Gesamtdifferenzen zwischen N- und P-Gruppen mit dem Wilcoxon-Test:
+wilcox_overall <- wilcox.test(overall_diff ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+
+print(wilcox_overall)
+
+median_diff_N <- median(risk_diff$overall_diff[risk_diff$framing == "N"])
+median_diff_P <- median(risk_diff$overall_diff[risk_diff$framing == "P"])
+
+print(median_diff_N)
+print(median_diff_P)
