@@ -38,7 +38,7 @@ risk_before_durchschnitt_RW
 
 #die ColMeans werden als Value gespeichert --> für die Korrelation benötige ich sie aber in einem Datensatz (passend zur jeweiligen ResponseID)
 
-# Jetzt kann die Änderung (Differenz) von den Mittelwerten vor-Framing und nach-Framing berechnet werden.
+# Jetzt kann die durchschnittliche Änderung (Differenz) von den Mittelwerten vor-Framing und nach-Framing berechnet werden.
 # WICHTIG: Wie subtrahiert man bestimmte Variablen von einzelnen Datensätzen? Damit ich nicht ResponseID und Time (vor/nach) löschen muss.
     
 Differenz_before_after_durchschnitt_RW <- risk_after_durchschnitt_RW - risk_before_durchschnitt_RW
