@@ -54,3 +54,30 @@ robust_anova_result <- lmrob(Änderung_RW ~ prior_knowledge_numeric, data = data
 # Zusammenfassung der Ergebnisse
 print(robust_anova_result)
 summary(robust_anova_result)
+
+
+
+
+# 
+
+# Laden der erforderlichen Pakete
+#install.packages("coin")
+#install.packages("WRS2")
+library(coin)
+library(WRS2)
+
+# Durchführung des Kruskal-Wallis-Tests
+kruskal_result <- kruskal_test(Änderung_RW ~ prior_knowledge_numeric, data = data_filtered)
+
+# Robuste ANOVA mit lmrob aus dem robustbase-Paket
+library(robustbase)
+robust_anova_result_2 <- lmrob(Änderung_RW ~ prior_knowledge_numeric, data = data_filtered)
+
+# Ausgabe der Ergebnisse
+print("Kruskal-Wallis-Test:")
+print(kruskal_result)
+
+print("Robuste ANOVA:")
+summary(robust_anova_result_2)
+
+
