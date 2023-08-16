@@ -119,3 +119,13 @@ data_display %>%
        caption = " ") +
   theme_minimal()
 
+
+# Hypothese Geschlecht
+
+colors <- c("#999999", "#333333") # Farben bestimmen
+
+ggplot(data = data_filtered, aes(x = gender, y = overall_diff, fill = gender)) +
+  geom_boxplot(color = "black") +
+  scale_fill_manual(values = colors) +
+  labs(x = "Geschlecht", y = "Risikowahrnehmung") +
+  ggtitle("Verteilung der Risikowahrnehmung zwischen den Geschlechtern")
