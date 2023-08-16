@@ -34,7 +34,3 @@ jmv::ttestIS(
 
 # --> Ergebnis nicht Signifikant.
 # --> Allgemeine Risikowahrnehmung betrachtet, möglich, dass es in den spezifischen Bereichen anders aussieht?
-
-
-
-
