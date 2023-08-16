@@ -58,7 +58,117 @@ risk_diff <- data.frame(
        accident = wilcox_accident,
        price = wilcox_price,
        support = wilcox_support)
+ 
+#Z-Werte und Effektstärke
   
+  # Wilcoxon-Test für die "Dest"-Variable:
+  wilcox_dest_test <- wilcox.test(diff_dest ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+  
+  # W-Wert für "Dest":
+  W_dest <- wilcox_dest_test$statistic
+  
+  # p-Wert für "Dest":
+  p_value_dest <- wilcox_dest_test$p.value
+  
+  # Z-Wert Berechnung für "Dest":
+  Z_dest <- qnorm(p_value_dest / 2) # Für einen zweiseitigen Test
+  if(W_dest > n1 * (n1 + n2 + 1) / 2) {
+    Z_dest = -Z_dest
+  }
+  
+  # Effektstärke Berechnung für "Dest":
+  r_dest <- Z_dest / sqrt(N)
+  
+  cat("Z-Wert für Dest:", Z_dest, "\n")
+  cat("Effektstärke (r) für Dest:", r_dest, "\n")
+
+  # Wilcoxon-Test für die "Charging"-Variable:
+  wilcox_charging_test <- wilcox.test(diff_charging ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+  
+  # W-Wert für "Charging":
+  W_charging <- wilcox_charging_test$statistic
+  
+  # p-Wert für "Charging":
+  p_value_charging <- wilcox_charging_test$p.value
+  
+  # Z-Wert Berechnung für "Charging":
+  Z_charging <- qnorm(p_value_charging / 2) # Für einen zweiseitigen Test
+  if(W_charging > n1 * (n1 + n2 + 1) / 2) {
+    Z_charging = -Z_charging
+  }
+  
+  # Effektstärke Berechnung für "Charging":
+  r_charging <- Z_charging / sqrt(N)
+  
+  cat("Z-Wert für Charging:", Z_charging, "\n")
+  cat("Effektstärke (r) für Charging:", r_charging, "\n")
+  
+  # Wilcoxon-Test für die "Time"-Variable:
+  wilcox_time_test <- wilcox.test(diff_time ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+  
+  # W-Wert für "Time":
+  W_time <- wilcox_time_test$statistic
+  
+  # p-Wert für "Time":
+  p_value_time <- wilcox_time_test$p.value
+  
+  # Z-Wert Berechnung für "Time":
+  Z_time <- qnorm(p_value_time / 2) # Für einen zweiseitigen Test
+  if(W_time > n1 * (n1 + n2 + 1) / 2) {
+    Z_time = -Z_time  # Die Richtung des Z-Wertes korrigieren
+  }
+  
+  # Effektstärke Berechnung für "Time":
+  r_time <- Z_time / sqrt(N)
+  
+  cat("Z-Wert für Time:", Z_time, "\n")
+  cat("Effektstärke (r) für Time:", r_time, "\n")
+  
+  # Wilcoxon-Test für die "Price"-Variable:
+  wilcox_price_test <- wilcox.test(diff_price ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+  
+  # W-Wert für "Price":
+  W_price <- wilcox_price_test$statistic
+  
+  # p-Wert für "Price":
+  p_value_price <- wilcox_price_test$p.value
+  
+  # Z-Wert Berechnung für "Price":
+  Z_price <- qnorm(p_value_price / 2) # Für einen zweiseitigen Test
+  if(W_price > n1 * (n1 + n2 + 1) / 2) {
+    Z_price = -Z_price  # Die Richtung des Z-Wertes korrigieren
+  }
+  
+  # Effektstärke Berechnung für "Price":
+  r_price <- Z_price / sqrt(N)
+  
+  cat("Z-Wert für Price:", Z_price, "\n")
+  cat("Effektstärke (r) für Price:", r_price, "\n")
+  
+  # Wilcoxon-Test für die "Support"-Variable:
+  wilcox_support_test <- wilcox.test(diff_support ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+  
+  # W-Wert für "Support":
+  W_support <- wilcox_support_test$statistic
+  
+  # p-Wert für "Support":
+  p_value_support <- wilcox_support_test$p.value
+  
+  # Z-Wert Berechnung für "Support":
+  Z_support <- qnorm(p_value_support / 2) # Für einen zweiseitigen Test
+  if(W_support > n1 * (n1 + n2 + 1) / 2) {
+    Z_support = -Z_support  # Die Richtung des Z-Wertes korrigieren
+  }
+  
+  # Effektstärke Berechnung für "Support":
+  r_support <- Z_support / sqrt(N)
+  
+  cat("Z-Wert für Support:", Z_support, "\n")
+  cat("Effektstärke (r) für Support:", r_support, "\n")
+  
+  
+  
+   
   # Mediane für jede Gruppe und jede Kategorie berechnen
   median_diffs <- risk_diff %>%
     group_by(framing) %>%
@@ -74,7 +184,19 @@ risk_diff <- data.frame(
   
   # Ergebnisse anzeigen
   print(median_diffs)
+ 
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
   #Allgemeine Risikowahnehmung ----
   # Summe der Differenzen für jede Person
   risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
@@ -108,33 +230,25 @@ median_diff_P <- median(risk_diff$overall_diff[risk_diff$framing == "P"])
 print(median_diff_N)
 print(median_diff_P)
 
+# Der bereits durchgeführte Wilcoxon-Test für die "overall_diff"-Variable:
+wilcox_overall <- wilcox.test(overall_diff ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
 
+# W-Wert für "overall_diff":
+W_overall <- wilcox_overall$statistic
 
-# Angenommen, Sie haben folgenden Wilcoxon-Test durchgeführt:
-wilcox_test <- wilcox.test(diff_dest ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+# p-Wert für "overall_diff":
+p_value_overall <- wilcox_overall$p.value
 
-# Der W-Wert kann aus den Ergebnissen extrahiert werden:
-W <- wilcox_test$statistic
-
-# Die Gruppengrößen und der p-Wert:
-n1 <- sum(risk_diff$framing == "P")
-n2 <- sum(risk_diff$framing == "N")
-p_value <- wilcox_test$p.value
-
-# Z-Wert Berechnung:
-Z <- qnorm(p_value / 2) # Für einen zweiseitigen Test
-if(W > n1 * (n1 + n2 + 1) / 2) {
-  Z = -Z  # Die Richtung des Z-Wertes kann aus dem W-Wert und dem Mittelwert von W abgeleitet werden
+# Z-Wert Berechnung für "overall_diff":
+Z_overall <- qnorm(p_value_overall / 2) # Für einen zweiseitigen Test
+if(W_overall > n1 * (n1 + n2 + 1) / 2) {
+  Z_overall = -Z_overall  # Die Richtung des Z-Wertes korrigieren
 }
 
-# Effektstärke Berechnung:
-N <- n1 + n2
-r <- Z / sqrt(N)
+# Effektstärke Berechnung für "overall_diff":
+r_overall <- Z_overall / sqrt(N)
 
-cat("Z-Wert:", Z, "\n")
-cat("Effektstärke (r):", r, "\n")
-
-
-
+cat("Z-Wert für overall_diff:", Z_overall, "\n")
+cat("Effektstärke (r) für overall_diff:", r_overall, "\n")
 
 
