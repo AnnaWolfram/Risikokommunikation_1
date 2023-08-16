@@ -119,6 +119,7 @@ data_display %>%
        caption = " ") +
   theme_minimal()
 
+save.image("Daten/data_display")
 
 # Hypothese Geschlecht
 
