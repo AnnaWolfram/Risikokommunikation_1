@@ -33,6 +33,7 @@ data_filtered <- data_combined[data_combined$framing != "Neutral", ]
 
 
 
+
 # Alle Outlier prüfen ----
 # Identify outliers for Dest and Dest_2
 data_filtered %>%

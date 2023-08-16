@@ -159,7 +159,7 @@ raw.short
 
 nrow(raw.short)
 raw.short <- careless_indices(raw.short,
-                              speeder_analysis = "median/2",
+                              speeder_analysis = "median/3",
                               likert_vector = c(27:41,43:60,71:108))
 raw.short %>%
   filter(speeder_flag == FALSE) -> raw.noSpeeder #notwendig, da sonst careless nicht funktioniert

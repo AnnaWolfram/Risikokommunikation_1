@@ -210,8 +210,7 @@ data_filtered <- data_filtered %>%
 
 
 
-
-  #Mittelwert der gesamten Differenzen für N- und P-Gruppen:
+#Mittelwert der gesamten Differenzen für N- und P-Gruppen:
 
 overall_diff_mean <- risk_diff %>%
   filter(framing %in% c("P", "N")) %>%
@@ -229,6 +228,7 @@ median_diff_P <- median(risk_diff$overall_diff[risk_diff$framing == "P"])
 
 print(median_diff_N)
 print(median_diff_P)
+
 
 # Der bereits durchgeführte Wilcoxon-Test für die "overall_diff"-Variable:
 wilcox_overall <- wilcox.test(overall_diff ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
