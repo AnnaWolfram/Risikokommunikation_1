@@ -76,7 +76,7 @@ raw.short$education %>%
                      `5`="(Fach-)Hochschulabschluss")) -> raw.short$education
 
 
-raw.short$occupation[raw.short$occupation == 6] <- NA
+raw.short$occupation[raw.short$occupation == 10] <- NA
 raw.short$occupation %>% 
   ordered(levels = c(1:9),
           labels = c(`1`="Schüler:in",
