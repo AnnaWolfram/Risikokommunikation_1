@@ -107,3 +107,34 @@ median_diff_P <- median(risk_diff$overall_diff[risk_diff$framing == "P"])
 
 print(median_diff_N)
 print(median_diff_P)
+
+
+
+# Angenommen, Sie haben folgenden Wilcoxon-Test durchgeführt:
+wilcox_test <- wilcox.test(diff_dest ~ framing, data = risk_diff, subset = framing %in% c("P", "N"))
+
+# Der W-Wert kann aus den Ergebnissen extrahiert werden:
+W <- wilcox_test$statistic
+
+# Die Gruppengrößen und der p-Wert:
+n1 <- sum(risk_diff$framing == "P")
+n2 <- sum(risk_diff$framing == "N")
+p_value <- wilcox_test$p.value
+
+# Z-Wert Berechnung:
+Z <- qnorm(p_value / 2) # Für einen zweiseitigen Test
+if(W > n1 * (n1 + n2 + 1) / 2) {
+  Z = -Z  # Die Richtung des Z-Wertes kann aus dem W-Wert und dem Mittelwert von W abgeleitet werden
+}
+
+# Effektstärke Berechnung:
+N <- n1 + n2
+r <- Z / sqrt(N)
+
+cat("Z-Wert:", Z, "\n")
+cat("Effektstärke (r):", r, "\n")
+
+
+
+
+
