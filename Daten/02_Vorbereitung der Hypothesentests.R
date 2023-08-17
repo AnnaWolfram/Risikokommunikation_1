@@ -67,6 +67,12 @@ risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "di
 risk_diff$overall_diff
 library(dplyr)
 
-# Füge die overall_diff-Spalte aus risk_diff zu data_filtered hinzu, basierend auf der ResponseId-Variable
+#Füge die overall_diff-Spalte aus risk_diff zu data_filtered hinzu, basierend auf der ResponseId-Variable
 data_filtered <- data_filtered %>%
   left_join(select(risk_diff, ResponseId, overall_diff), by = "ResponseId")
+
+
+
+
+
+

@@ -1,4 +1,5 @@
 # Hypothese Vorwissen mit Mann-Whitney-U-Test
+
 # Laden der erforderlichen Pakete
 #install.packages("coin")
 #install.packages("WRS2")
@@ -7,6 +8,14 @@ library(WRS2)
 library(dplyr)
 library(stats)
 
+#Kruskal-Wallis
+jmv::anovaNP(
+  formula = overall_diff ~ prior_knowledge,
+  data = data_filtered,
+  es = TRUE,
+  pairs = TRUE)
+
+#alt _________________________________________________________________________________
 # Mapping des Vorwissens
 vorwissen_mapping <- c(
   "Ich könnte ihre Funktionsweise im Detail erklären." = 1,
