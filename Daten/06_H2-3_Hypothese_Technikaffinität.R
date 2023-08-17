@@ -1,4 +1,4 @@
-#Hypothese: Je höher die TB höher, desto niedriger die Änderung der allgemeinen Risikowahrnehmung zwischen vor- und nach-Framing. 
+#Hypothese: Je höher die TA höher, desto niedriger die Änderung der allgemeinen Risikowahrnehmung zwischen vor- und nach-Framing. 
 
 # Mit overall_diff (der Änderung von Risiko-vor-Framing und Risiko-nach-Framing) kann die Korrelation berechnet werden.
 
