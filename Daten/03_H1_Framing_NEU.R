@@ -78,15 +78,6 @@ jmv::ttestIS(
   effectSize = TRUE,
   desc = TRUE)
 
-#Allgemeine Risikowahnehmung ----
-# Summe der Differenzen für jede Person
-risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
-risk_diff$overall_diff
-library(dplyr)
-
-# Füge die overall_diff-Spalte aus risk_diff zu data_filtered hinzu, basierend auf der ResponseId-Variable
-data_filtered <- data_filtered %>%
-  left_join(select(risk_diff, ResponseId, overall_diff), by = "ResponseId")
 
 # overall_diff
 jmv::ttestIS(

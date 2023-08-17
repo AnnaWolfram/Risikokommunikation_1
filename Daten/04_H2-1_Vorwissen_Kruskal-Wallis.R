@@ -13,7 +13,7 @@ jmv::anovaNP(
   formula = overall_diff ~ prior_knowledge,
   data = data_filtered,
   es = TRUE,
-  pairs = TRUE)
+  pairs = FALSE)
 
 #alt _________________________________________________________________________________
 # Mapping des Vorwissens
