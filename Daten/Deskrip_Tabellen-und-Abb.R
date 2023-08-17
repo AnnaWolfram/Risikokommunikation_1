@@ -1,8 +1,10 @@
 # Installiere und lade das 'gt' Paket für die Tabellengestaltung
 #install.packages("gt")
+#install.packages("esquisse")
 library(gt)
 library(psych)
 library(dplyr)
+library(esquisse)
 
 
 # Alter ---------------------------
@@ -121,6 +123,8 @@ data_display %>%
 
 save.image("Daten/data_display")
 
+
+
 # Hypothese Geschlecht
 
 colors <- c("#999999", "#333333") # Farben bestimmen
@@ -130,3 +134,117 @@ ggplot(data = data_filtered, aes(x = gender, y = overall_diff, fill = gender)) +
   scale_fill_manual(values = colors) +
   labs(x = "Geschlecht", y = "Risikowahrnehmung") +
   ggtitle("Verteilung der Risikowahrnehmung zwischen den Geschlechtern")
+
+
+
+
+#____________________________________________________________
+
+#Unterschiede Risikowahrnehmung vor Framing und nach Framing für die verschiedenen Aspekte
+
+#Füge die dest/dest_2/charging/charging_2/... aus  zu data_filtered hinzu, basierend auf der ResponseId-Variable
+#data_filtered <- data_filtered %>%
+ # left_join(select(risk_diff, ResponseId, overall_diff), by = "ResponseId")
+
+
+# Filtern von Positiv und negativ
+
+library(dplyr)
+
+#aus Data_filtered zwei neue Datensätze (positiv und negativ) erstellenn
+
+# Filtern der Probanden mit positivem Framing
+data_filtered_positiv <- data_filtered %>%
+  filter(framing == "P")
+
+# Filtern der Probanden mit negativem Framing
+data_filtered_negativ <- data_filtered %>%
+  filter(data_filtered$framing == "N")
+
+#Mediane / Mittelwerte berechnen
+
+#Dest positiv
+#mean(data_filtered_positiv$Dest)
+median(data_filtered_positiv$Dest)
+
+#mean(data_filtered_positiv$Dest_2)
+median(data_filtered_positiv$Dest_2)
+
+
+#Charging positiv
+#mean(data_filtered_positiv$Charging)
+median(data_filtered_positiv$Charging)
+
+#mean(data_filtered_positiv$Charging_2)
+median(data_filtered_positiv$Charging_2)
+
+#Time positiv
+#mean(data_filtered_positiv$Time)
+median(data_filtered_positiv$Time)
+
+#mean(data_filtered_positiv$Time_2)
+median(data_filtered_positiv$Time_2)
+
+#Accident positiv
+#mean(data_filtered_positiv$Accident)
+median(data_filtered_positiv$Accident)
+
+#mean(data_filtered_positiv$Accident_2)
+median(data_filtered_positiv$Accident_2)
+
+#Price positiv
+#mean(data_filtered_positiv$Price)
+median(data_filtered_positiv$Price)
+
+#mean(data_filtered_positiv$Price_2)
+median(data_filtered_positiv$Price_2)
+
+#Support positiv
+#mean(data_filtered_positiv$Support)
+median(data_filtered_positiv$Support)
+
+#mean(data_filtered_positiv$Support_2)
+median(data_filtered_positiv$Support_2)
+
+#Dest negativ
+#mean(data_filtered_negativ$Dest)
+median(data_filtered_negativ$Dest)
+
+#mean(data_filtered_negativ$Dest_2)
+median(data_filtered_negativ$Dest_2)
+
+#Charging negativ
+#mean(data_filtered_negativ$Charging)
+median(data_filtered_negativ$Charging)
+
+#mean(data_filtered_negativ$Charging_2)
+median(data_filtered_negativ$Charging_2)
+
+#Time negativ
+#mean(data_filtered_negativ$Time)
+median(data_filtered_negativ$Time)
+
+#mean(data_filtered_negativ$Time_2)
+median(data_filtered_negativ$Time_2)
+
+
+#Accident negativ
+#mean(data_filtered_negativ$Accident)
+median(data_filtered_negativ$Accident)
+
+#mean(data_filtered_negativ$Accident_2)
+median(data_filtered_negativ$Accident_2)
+
+#Price negativ
+#mean(data_filtered_negativ$Price)
+median(data_filtered_negativ$Price)
+
+#mean(data_filtered_negativ$Price_2)
+median(data_filtered_negativ$Price_2)
+
+#Support negativ
+#mean(data_filtered_negativ$Support)
+median(data_filtered_negativ$Support)
+
+#mean(data_filtered_negativ$Support_2)
+median(data_filtered_negativ$Support_2)
