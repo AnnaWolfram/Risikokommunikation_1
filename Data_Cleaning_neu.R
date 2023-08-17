@@ -107,7 +107,7 @@ raw.short$car_type[raw.short$car_type == 6] <- NA
 raw.short$car_type[is.na(raw.short$car_type)] <- 5
 raw.short$car_type %>%
   recode(`1`="Diesel-Auto",
-         `2`="Benzin-AUto",
+         `2`="Benzin-Auto",
          `3`= "Elektro-Auto",
          `4`="Hybrid-Auto",
          `5`="Brennstoffzellen-Auto") %>%
