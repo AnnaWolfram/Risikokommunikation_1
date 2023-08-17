@@ -1,38 +1,3 @@
-# # Pakete laden
-library(tidyverse)
-
-# Daten einlesen
-data_combined <- readRDS("Daten/data_combined.rds")
-
-# Hypothese: Einfluss von Framing positiv auf Risikowahrnehmung----
-
-# Daten für "risk_before_mit_Neutral" auswählen und Zeitpunkt hinzufügen
-risk_before_mit_Neutral <- data_filtered %>%
-  select(ResponseId, Dest, Charging, Time, Accident, Price, Support, framing) %>%
-  mutate(Zeit = "Vor")
-
-# Daten für "risk_after_mit_Neutral" auswählen und Zeitpunkt hinzufügen
-risk_after_mit_Neutral <- data_filtered %>%
-  select(ResponseId, Dest_2, Charging_2, Time_2, Accident_2, Price_2, Support_2, framing) %>%
-  mutate(Zeit = "Nach")
-
-# Aus risk_before_mit_Neutral und risk_after_mit_Neutral alle Neutralen filtern
-risk_before_neutral_filtered <- risk_before_mit_Neutral[risk_before_mit_Neutral$framing != "Neutral", ]
-risk_after_neutral_filtered <- risk_after_mit_Neutral[risk_after_mit_Neutral$framing != "Neutral", ]
-
-
-# Risikowahrnehmungsdifferenz berechnen
-risk_diff <- data.frame(
-  ResponseId = risk_before_neutral_filtered$ResponseId,
-  diff_dest = risk_after_neutral_filtered$Dest_2 - risk_before_neutral_filtered$Dest,
-  diff_charging = risk_after_neutral_filtered$Charging_2 - risk_before_neutral_filtered$Charging,
-  diff_time = risk_after_neutral_filtered$Time_2 - risk_before_neutral_filtered$Time,
-  diff_accident = risk_after_neutral_filtered$Accident_2 - risk_before_neutral_filtered$Accident,
-  diff_price = risk_after_neutral_filtered$Price_2 - risk_before_neutral_filtered$Price,
-  diff_support = risk_after_neutral_filtered$Support_2 - risk_before_neutral_filtered$Support,
-  framing = risk_before_neutral_filtered$framing)
-
-
 # Mann-Whitney-U-Test für ungepaarte Sichproben
 
 # Dest
