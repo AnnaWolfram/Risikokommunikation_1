@@ -1,4 +1,3 @@
-# Installiere und lade das 'gt' Paket für die Tabellengestaltung
 #install.packages("gt")
 #install.packages("esquisse")
 library(gt)
@@ -9,22 +8,19 @@ library(esquisse)
 
 # Alter ---------------------------
 
-# Berechne die deskriptive Statistik für die Spalte 'age'
+# deskriptive Statistik für die Spalte 'age'
 desc_stats <- describe(data_combined$age)
 
-# Wandle die deskriptive Statistik in einen Datenrahmen um
+# deskriptive Statistik in dataframe umwandeln
 desc_stats_df <- as.data.frame(desc_stats)
 
-# Speichere den Datenrahmen in einer CSV-Datei (optional)
+# Speichere den Datenrahmen in einer CSV-Datei
 write.csv(desc_stats_df, "deskriptive_statistik.csv", row.names = FALSE)
 
-# Erstelle eine hübsche Tabelle mit dem 'gt' Paket
+# Tabelle erstellen und speichern
 gt_desc_stats <- gt(desc_stats_df) %>%
   tab_header(title = "Deskriptive Statistik für Altersangaben") %>%
   fmt_number(columns = vars(1:5), decimals = 2) # Anzahl der Dezimalstellen anpassen
-
-# Speichere die Tabelle als HTML-Datei (optional) oder zeige sie an
-# gtsave(gt_desc_stats, "deskriptive_statistik_tabelle.html")
 print(gt_desc_stats)
 
 data_combined %>%
@@ -39,7 +35,6 @@ data_combined %>%
   theme_minimal()
 
 
-
 # Geschlecht ---------------------------------------
 
 data_combined %>%
@@ -52,7 +47,6 @@ data_combined %>%
        subtitle = "Geschlerterverteilung", 
        caption = " ") +
   theme_minimal()
-
 
 
 # Bildungsabschluss ---------------------------------------

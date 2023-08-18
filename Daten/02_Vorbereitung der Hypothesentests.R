@@ -1,17 +1,15 @@
 saveRDS(data_combined, "Daten/data_combined.rds")
-##Datenauswertung
 
 #install.packages("ez")
 #install.packages("tidyverse")
 #install.packages("readxl")
 #remotes::install_github("statisticsforsocialscience/hcictools")
-#installed.packages("tidyverse")
-#remotes::install_github("statisticsforsocialscience/hcictools")
 #install.packages("careless")
 #install.packages("jmv")
 #install.packages("rstatix")
-#install.packages("ez")
+#install.packages("nortest")
 
+library(nortest)
 library(hcictools)
 library(tidyverse)
 library(psych)
@@ -23,6 +21,7 @@ library(dplyr)
 library(rstatix)
 library(car)
 library(ez)
+library(ggplot2)
 #________________________________________________________________________
 
 #Vorbereitung der Hypothesentests
@@ -31,25 +30,24 @@ library(ez)
 data_combined$framing <- ifelse(!is.na(data_combined$n_control_reading), "N",
                                 ifelse(!is.na(data_combined$control_question), "P", "Neutral"))
 
-# Filtern Sie die Daten, um nur die gewünschten Gruppen zu behalten
+# Filtern der Daten
 data_filtered <- data_combined[data_combined$framing != "Neutral", ]
 
 # Daten einlesen
 data_combined <- readRDS("Daten/data_combined.rds")
 
-# Hypothese: Einfluss von Framing positiv auf Risikowahrnehmung----
+# Hypothese: Einfluss von Framing (positiv) auf Risikowahrnehmung----
 
-# Daten für "risk_before_mit_Neutral" auswählen und Zeitpunkt hinzufügen
+# Daten für "risk_before_mit_Neutral" und "risk_after_mit_Neutral" auswählen und Zeitpunkt hinzufügen
 risk_before_mit_Neutral <- data_filtered %>%
   select(ResponseId, Dest, Charging, Time, Accident, Price, Support, framing) %>%
   mutate(Zeit = "Vor")
 
-# Daten für "risk_after_mit_Neutral" auswählen und Zeitpunkt hinzufügen
 risk_after_mit_Neutral <- data_filtered %>%
   select(ResponseId, Dest_2, Charging_2, Time_2, Accident_2, Price_2, Support_2, framing) %>%
   mutate(Zeit = "Nach")
 
-# Aus risk_before_mit_Neutral und risk_after_mit_Neutral alle Neutralen filtern
+# Filtern der Kontrollgruppe (neutral)
 risk_before_neutral_filtered <- risk_before_mit_Neutral[risk_before_mit_Neutral$framing != "Neutral", ]
 risk_after_neutral_filtered <- risk_after_mit_Neutral[risk_after_mit_Neutral$framing != "Neutral", ]
 
@@ -64,13 +62,13 @@ risk_diff <- data.frame(
   diff_support = risk_after_neutral_filtered$Support_2 - risk_before_neutral_filtered$Support,
   framing = risk_before_neutral_filtered$framing)
 
-#Allgemeine Risikowahnehmung ----
+# Allgemeine Risikowahnehmung ----
 # Summe der Differenzen für jede Person
 risk_diff$overall_diff <- rowSums(risk_diff[,c("diff_dest", "diff_charging", "diff_time", "diff_accident", "diff_price", "diff_support")], na.rm = TRUE)
 risk_diff$overall_diff
 library(dplyr)
 
-#Füge die overall_diff-Spalte aus risk_diff zu data_filtered hinzu, basierend auf der ResponseId-Variable
+# overall_diff-Spalte aus risk_diff zu data_filtered hinzufügen
 data_filtered <- data_filtered %>%
   left_join(select(risk_diff, ResponseId, overall_diff), by = "ResponseId")
 
@@ -78,63 +76,52 @@ data_filtered <- data_filtered %>%
 
 #Prüfung der Normalverteilung nach Anderson-Darling-Test bei allen relevanten Konstrukten ----
 
-# Laden des nortest-Pakets
-install.packages("nortest")
-library(nortest)
-
-# Anderson-Darling-Test für die Variable "Dest"
+# Anderson-Darling-Test für die Variable "Dest" und "Dest_2"
 ad_test_dest <- ad.test(data_filtered$Dest)
 print(ad_test_dest)
 
-# Anderson-Darling-Test für die Variable "Dest_2"
 ad_test_dest_2 <- ad.test(data_filtered$Dest_2)
 print(ad_test_dest_2)
 
-# Anderson-Darling-Test für die Variable "Charging"
+# Anderson-Darling-Test für die Variable "Charging" und "Charging_2"
 ad_test_charging <- ad.test(data_filtered$Charging)
 print(ad_test_charging)
 
-# Anderson-Darling-Test für die Variable "Charging_2"
 ad_test_charging_2 <- ad.test(data_filtered$Charging_2)
 print(ad_test_charging_2)
 
-# Anderson-Darling-Test für die Variable "Price"
+# Anderson-Darling-Test für die Variable "Price" und "Price_2"
 ad_test_price <- ad.test(data_filtered$Price)
 print(ad_test_price)
 
-# Anderson-Darling-Test für die Variable "Price_2"
 ad_test_price_2 <- ad.test(data_filtered$Price_2)
 print(ad_test_price_2)
 
-# Anderson-Darling-Test für die Variable "Support"
+# Anderson-Darling-Test für die Variable "Support" und "Support_2"
 ad_test_support <- ad.test(data_filtered$Support)
 print(ad_test_support)
 
-# Anderson-Darling-Test für die Variable "Support_2"
 ad_test_support_2 <- ad.test(data_filtered$Support_2)
 print(ad_test_support_2)
 
-# Anderson-Darling-Test für die Variable "Accident"
+# Anderson-Darling-Test für die Variable "Accident" und "Accident_2"
 ad_test_accident <- ad.test(data_filtered$Accident)
 print(ad_test_accident)
 
-# Anderson-Darling-Test für die Variable "Accident"
 ad_test_accident_2 <- ad.test(data_filtered$Accident_2)
 print(ad_test_accident_2)
 
-# Anderson-Darling-Test für die Variable "Time"
+# Anderson-Darling-Test für die Variable "Time" und "Time_2"
 ad_test_time <- ad.test(data_filtered$Time)
 print(ad_test_time)
 
-# Anderson-Darling-Test für die Variable "Time_2"
 ad_test_time_2 <- ad.test(data_filtered$Time_2)
 print(ad_test_time_2)
 
 
 # Visuelle Inspektion der Normalverteilung 
-library(ggplot2)
 
-##Dest und Dest_2
+# Dest und Dest_2
 ggplot(data_filtered, aes(x = Dest)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
   geom_density(alpha = .2, fill = "#FF6666") +
@@ -151,7 +138,7 @@ ggplot(data_filtered, aes(x = Dest_2)) +
 qqnorm(data_filtered$Dest_2)
 qqline(data_filtered$Dest_2)
 
-#Charging und Charging_2
+# Charging und Charging_2
 
 ggplot(data_filtered, aes(x = Charging)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
@@ -169,7 +156,7 @@ ggplot(data_filtered, aes(x = Charging_2)) +
 qqnorm(data_filtered$Charging_2)
 qqline(data_filtered$Charging_2)
 
-#Price und Price_2
+# Price und Price_2
 
 ggplot(data_filtered, aes(x = Price)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
@@ -187,7 +174,7 @@ ggplot(data_filtered, aes(x = Price_2)) +
 qqnorm(data_filtered$Price_2)
 qqline(data_filtered$Price_2)
 
-#Support und Support_2
+# Support und Support_2
 
 ggplot(data_filtered, aes(x = Support)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
@@ -205,7 +192,7 @@ ggplot(data_filtered, aes(x = Support_2)) +
 qqnorm(data_filtered$Support_2)
 qqline(data_filtered$Support_2)
 
-#Accident und Accident_2
+# Accident und Accident_2
 
 ggplot(data_filtered, aes(x = Accident)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
@@ -223,7 +210,7 @@ ggplot(data_filtered, aes(x = Accident_2)) +
 qqnorm(data_filtered$Accident_2)
 qqline(data_filtered$Accident_2)
 
-#Time und Time_2
+# Time und Time_2
 ggplot(data_filtered, aes(x = Time)) +
   geom_histogram(aes(y = ..density..), bins = 30) +
   geom_density(alpha = .2, fill = "#FF6666") +

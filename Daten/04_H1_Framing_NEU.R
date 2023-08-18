@@ -1,3 +1,4 @@
+# Hypothese Einfluss Framing
 # Mann-Whitney-U-Test für ungepaarte Sichproben
 
 # Dest
@@ -77,7 +78,6 @@ jmv::ttestIS(
   eqv = TRUE,
   effectSize = TRUE,
   desc = TRUE)
-
 
 # overall_diff
 jmv::ttestIS(

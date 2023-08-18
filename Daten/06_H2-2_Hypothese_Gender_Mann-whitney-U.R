@@ -1,10 +1,7 @@
-#Vorbereitung: VORHER HYPOTHESE_TECHNIKBEREITSCHAFT AUSFÜHREN!
+# Hypothese Frauen lassen sich eher beeinflussen als Männer.
 
-
-#### Hypothese Frauen lassen sich eher beeinflussen als Männer.
-
-# Daten filtern, um nur "männlich" und "weiblich" zu behalten
-data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblich"), ] #hier wird eine Person aus dem Datensatz gefiltert!
+# Daten filtern
+data_filtered <- data_filtered[data_filtered$gender %in% c("männlich", "weiblich"), ] #hier wird eine Person aus dem Datensatz gefiltert
 
 # t-Test durchführen
 jmv::ttestIS(
@@ -31,6 +28,3 @@ jmv::ttestIS(
   eqv = TRUE,
   effectSize = TRUE,
   desc = TRUE)
-
-# --> Ergebnis nicht Signifikant.
-# --> Allgemeine Risikowahrnehmung betrachtet, möglich, dass es in den spezifischen Bereichen anders aussieht?

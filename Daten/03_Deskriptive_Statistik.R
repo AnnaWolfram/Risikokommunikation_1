@@ -1,12 +1,8 @@
-# Pakete installieren
-
 #remotes::install_github("statisticsforsocialscience/hcictools")
 #install.packages("esquisse")
 #install.packages("shiny")
-# Installiere 'scales' Paket, falls es noch nicht installiert ist
 #install.packages("scales")
 
-# Lade benötigte Pakete
 library(hcictools)
 library(tidyverse)
 rwthcolor <- hcictools::rwth.colorpalette()
@@ -15,19 +11,18 @@ library(ggplot2)
 library(shiny)
 library(psych)
 library(knitr)
-library(scales) # Das muss auch installiert werden
-
+library(scales)
+#______________________________________________________
+#Deskriptives Statistik in ganzen Zahlen und Prozenten
 # Alter
 summary(data_combined$age)
 describe(data_combined$age)
-shapiro_test_result <- shapiro.test(data_combined$age)
-print(shapiro_test_result)
 
 # Geschlecht
-summary(data_combined$gender) # Ganze Zahlen
+summary(data_combined$gender)
 gender_percent <- prop.table(table(data_combined$gender)) * 100
 gender_percent <- round(gender_percent, 2)
-gender_percent    # Prozentangaben
+gender_percent 
 
 # Bildungsabschluss
 summary(data_combined$education)
