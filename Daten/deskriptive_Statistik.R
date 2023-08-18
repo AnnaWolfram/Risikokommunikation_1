@@ -53,5 +53,8 @@ prior_knowledge_percent <- prop.table(table(data_combined$prior_knowledge)) * 10
 prior_knowledge_percent <- round(prior_knowledge_percent, 2)
 prior_knowledge_percent
 
-
-
+# Erfahrungen mit Elektroautos
+summary(data_combined$experience)
+experience_percent <- prop.table(table(data_combined$experience)) * 100
+experience_percent <- round(experience_percent, 2)
+experience_percent
